@@ -1,583 +1,854 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Goldilocks Workshop @ ICLR 2027: Finding “Just Right” in Agentic AI</title>
-<meta name="description" content="Goldilocks' Workshop on Finding “Just Right” in Agentic AI, ICLR 2027, San Francisco. Saturation, allocation and synergy in agentic systems.">
-<meta property="og:title" content="Goldilocks Workshop @ ICLR 2027">
-<meta property="og:description" content="Finding “just right” in agentic AI: saturation, allocation and synergy.">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🥣</text></svg>">
+<title>AI4Y? Rethinking the Values and Societal Implications of AI Research, ICLR 2027 Workshop</title>
+<meta name="description" content="AI4Y? is a proposed ICLR 2027 workshop bringing technical AI researchers and scholars in the humanities, arts, and social sciences together to ask why AI research pursues the problems, choices, and outcomes it does.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>❓</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Instrument+Sans:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;0,7..72,700;1,7..72,400&display=swap" rel="stylesheet">
 <style>
-:root{
-  --paper:#EDEFE4;      /* lichen */
-  --paper-2:#E2E6D5;
-  --ink:#1E2B23;        /* forest */
-  --muted:#4F5B4A;
-  --rule:#C5CBB4;
-  --forest:#22322A;
-  --honey:#E3A72F;      /* just right */
-  --honey-soft:#F5DFA0;
-  --hot:#A63A45;        /* too much */
-  --cold:#3F6587;       /* too little */
-  --bark:#6B4A35;
-  --serif:"Young Serif", Georgia, "Times New Roman", serif;
-  --sans:"Instrument Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+/* ------------------------------------------------------------------
+   Design tokens
+   Two research communities, two colours (the lanyard idea from the
+   proposal): cobalt = technical AI, plum = HASS, violet = both.
+------------------------------------------------------------------- */
+:root {
+  --paper: #F4F6F8;
+  --surface: #FFFFFF;
+  --ink: #17203A;
+  --ink-soft: #4A5470;
+  --rule: #CBD2DC;
+  --tech: #2D54C8;
+  --tech-tint: #E3E9FA;
+  --hass: #8E2463;
+  --hass-tint: #F5E3EC;
+  --both: #5A3A9E;
+  --both-tint: #ECE6F7;
+  --serif: "Literata", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --sans: "IBM Plex Sans", "Segoe UI", Helvetica, Arial, sans-serif;
+  --measure: 68ch;
+  --wide: 1120px;
+  color-scheme: light;
 }
-*{box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:4.5rem}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-body{margin:0;background:var(--paper);color:var(--ink);font:400 1.0625rem/1.6 var(--sans)}
-img{max-width:100%}
-a{color:inherit;text-decoration-color:var(--honey);text-decoration-thickness:2px;text-underline-offset:3px}
-a:hover{text-decoration-color:var(--ink)}
-:focus-visible{outline:3px solid var(--honey);outline-offset:3px;border-radius:2px}
-.wrap{max-width:1100px;margin:0 auto;padding:0 1.5rem}
-.prose{max-width:68ch}
-h1,h2,h3{font-family:var(--serif);font-weight:400;line-height:1.15;margin:0}
-h2{font-size:clamp(1.9rem,3.6vw,2.6rem);margin-bottom:1.25rem}
-h3{font-size:1.35rem;margin-bottom:.5rem}
-p{margin:0 0 1rem}
-section{padding:4.5rem 0;border-top:1px solid var(--rule)}
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 4.5rem; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; display: block; }
+a { color: var(--tech); text-underline-offset: 0.18em; }
+a:hover { color: var(--ink); }
+:focus-visible { outline: 3px solid var(--both); outline-offset: 3px; border-radius: 2px; }
+.skip { position: absolute; left: -999px; top: 0; background: var(--ink); color: #fff; padding: .6rem 1rem; z-index: 100; }
+.skip:focus { left: 1rem; top: 1rem; }
 
-/* nav */
-.nav{position:sticky;top:0;z-index:10;background:rgba(237,239,228,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--rule)}
-.nav .wrap{display:flex;align-items:center;gap:1.5rem;height:3.75rem}
-.brand{font-family:var(--serif);font-size:1.1rem;text-decoration:none;white-space:nowrap}
-.nav ul{display:flex;gap:1.25rem;list-style:none;margin:0 0 0 auto;padding:0;overflow-x:auto;scrollbar-width:none}
-.nav ul::-webkit-scrollbar{display:none}
-.nav ul a{text-decoration:none;font-size:.95rem;white-space:nowrap;color:var(--muted)}
-.nav ul a:hover{color:var(--ink)}
+.wrap { max-width: var(--wide); margin: 0 auto; padding: 0 1.5rem; }
+.prose { max-width: var(--measure); }
+.prose p { margin: 0 0 1.1em; }
 
-/* hero */
-.hero{background:var(--forest);color:#EEF0E4;padding:4rem 0 4.5rem}
-.hero .wrap{display:grid;grid-template-columns:1.05fr 1fr;gap:3rem;align-items:center}
-.hero h1{font-size:clamp(2.3rem,5vw,3.9rem);letter-spacing:-.01em}
-.hero .lede{font-size:1.15rem;color:#CDD5C6;margin:1.25rem 0 1rem;max-width:46ch}
-.hero .when{color:var(--honey-soft);margin-bottom:1.75rem}
-.btns{display:flex;flex-wrap:wrap;gap:.75rem}
-.btn{display:inline-block;padding:.7rem 1.15rem;border-radius:999px;text-decoration:none;font-weight:600;font-size:.98rem}
-.btn-gold{background:var(--honey);color:var(--forest)}
-.btn-gold:hover{background:var(--honey-soft)}
-.btn-line{border:1.5px solid #8A9886;color:#EEF0E4}
-.btn-line:hover{border-color:#EEF0E4}
+h1, h2, h3, h4 { font-family: var(--serif); font-weight: 600; line-height: 1.2; margin: 0; }
+h2 { font-size: clamp(1.9rem, 3.4vw, 2.6rem); margin-bottom: 1.25rem; letter-spacing: -0.01em; }
+h3 { font-size: 1.4rem; margin-bottom: .6rem; }
+h4 { font-size: 1.1rem; margin-bottom: .4rem; }
 
-.curve-fig{margin:0}
-.curve-fig svg{width:100%;height:auto;display:block}
-.curve-fig .axis{stroke:#6F7E6B;stroke-width:1.5}
-.curve-fig .axis-label{fill:#A9B5A4;font:500 13px var(--sans)}
-.curve-fig .zone{fill:var(--honey);opacity:.16}
-.curve-fig .line{fill:none;stroke:#9DAA98;stroke-width:3;stroke-linecap:round}
-.curve-fig .line-gold{fill:none;stroke:var(--honey);stroke-width:5;stroke-linecap:round}
-.curve-fig .zone-label{fill:var(--honey);font:400 15px var(--serif)}
-.curve-fig .drop{stroke:#EEF0E4;stroke-dasharray:3 4;stroke-width:1.2;opacity:.5}
-.curve-fig .dot{fill:#EEF0E4;stroke:var(--forest);stroke-width:3}
-.slider-row{display:flex;align-items:center;gap:1rem;margin-top:.75rem}
-.slider-row label{font-size:.9rem;color:#A9B5A4;white-space:nowrap}
-input[type=range]{flex:1;accent-color:var(--honey);height:1.6rem}
-.readout{min-height:3.4rem;margin-top:.6rem;font-size:1rem;color:#DDE3D6}
-.readout strong{font-family:var(--serif);font-weight:400;font-size:1.2rem;margin-right:.35rem}
-.readout[data-state=cold] strong{color:#93B8DA}
-.readout[data-state=right] strong{color:var(--honey)}
-.readout[data-state=hot] strong{color:#EE9AA2}
-.curve-fig figcaption{font-size:.88rem;color:#A9B5A4;margin-top:.25rem}
+/* ---------- Navigation ---------- */
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(244, 246, 248, 0.94);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--rule);
+}
+.topbar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 3.6rem; }
+.brand { font-family: var(--serif); font-weight: 700; font-size: 1.25rem; color: var(--ink); text-decoration: none; }
+.brand span { color: var(--hass); }
+.nav { display: flex; gap: .2rem; overflow-x: auto; scrollbar-width: none; }
+.nav::-webkit-scrollbar { display: none; }
+.nav a {
+  color: var(--ink-soft); text-decoration: none; font-size: .93rem; font-weight: 500;
+  padding: .4rem .65rem; border-radius: 6px; white-space: nowrap;
+}
+.nav a:hover { color: var(--ink); background: #E6EAF0; }
+.nav a[aria-current="true"] { color: var(--ink); background: #E1E6EE; }
 
-/* zones */
-.zones{display:grid;grid-template-columns:repeat(3,1fr);margin-top:2.5rem;border-top:3px solid var(--ink)}
-.zone-col{padding:1.75rem 1.5rem 0 0}
-.zone-col + .zone-col{padding-left:1.5rem;border-left:1px solid var(--rule)}
-.zone-col svg{width:120px;height:80px;color:var(--bark);margin-bottom:1rem}
-.zone-col .story{font-style:italic;color:var(--muted);margin:-.2rem 0 .9rem}
-.zone-col .eg{font-size:.95rem;color:var(--muted);border-left:3px solid var(--honey);padding-left:.8rem}
+/* ---------- Hero ---------- */
+.hero { padding: 4.5rem 0 4rem; border-bottom: 1px solid var(--rule); }
+.status {
+  display: inline-block; font-size: .92rem; color: var(--ink-soft);
+  border: 1px solid var(--rule); background: var(--surface);
+  padding: .4rem .85rem; border-radius: 10px; margin-bottom: 2rem;
+}
+.wordmark {
+  font-family: var(--serif); font-weight: 700;
+  font-size: clamp(4.2rem, 15vw, 11.5rem); line-height: .95; letter-spacing: -0.035em;
+  margin: 0 0 1.5rem; white-space: nowrap;
+}
+.wordmark .slot { display: inline-block; color: var(--tech); }
+.wordmark .slot.is-domain { font-weight: 400; font-style: italic; letter-spacing: -0.02em; }
+.wordmark .slot.is-why { color: var(--hass); }
+.wordmark .slot.flip { animation: flip .28s ease-out; }
+@keyframes flip { from { opacity: 0; transform: translateY(0.18em); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .wordmark .slot.flip { animation: none; } }
+.lede {
+  font-family: var(--serif); font-size: clamp(1.45rem, 2.6vw, 2rem); line-height: 1.3;
+  max-width: 26em; margin: 0 0 1.25rem; font-weight: 400;
+}
+.hero-meta { color: var(--ink-soft); max-width: 46em; margin: 0 0 2rem; }
+.hero-meta strong { color: var(--ink); font-weight: 600; }
+.actions { display: flex; flex-wrap: wrap; gap: .75rem; }
+.btn {
+  display: inline-block; font-weight: 600; font-size: 1rem; text-decoration: none;
+  padding: .75rem 1.25rem; border-radius: 8px; border: 2px solid var(--ink);
+}
+.btn-primary { background: var(--ink); color: #fff; }
+.btn-primary:hover { background: var(--tech); border-color: var(--tech); color: #fff; }
+.btn-secondary { color: var(--ink); background: transparent; }
+.btn-secondary:hover { background: var(--surface); color: var(--ink); }
 
-/* cfp */
-.two{display:grid;grid-template-columns:1.2fr 1fr;gap:3rem;align-items:start}
-table{border-collapse:collapse;width:100%;font-size:.98rem}
-th,td{text-align:left;padding:.6rem .75rem .6rem 0;border-bottom:1px solid var(--rule);vertical-align:top}
-th{font-weight:600}
-.statement{background:var(--honey-soft);border-radius:4px;padding:1.4rem 1.5rem;margin:2rem 0}
-.statement h3{font-size:1.25rem}
-.statement blockquote{margin:.8rem 0 0;font-family:var(--serif);font-size:1.1rem;line-height:1.45}
-.statement .ph{background:rgba(255,255,255,.55);padding:0 .25rem;border-radius:3px}
-.topics{margin-top:2.5rem}
-details{border-bottom:1px solid var(--rule)}
-details:first-of-type{border-top:1px solid var(--rule)}
-summary{cursor:pointer;padding:.9rem 0;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:1rem}
-summary::-webkit-details-marker{display:none}
-summary::after{content:"+";font-family:var(--serif);font-size:1.3rem;line-height:1;color:var(--bark)}
-details[open] summary::after{content:"–"}
-details .body{padding:0 0 1rem;max-width:72ch}
-details .body p{margin-bottom:.6rem}
-.tag{font-weight:600;color:var(--bark)}
-.portal{margin-top:1.5rem;color:var(--muted)}
-.support{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:2.5rem}
-.support div{border-top:2px solid var(--honey);padding-top:.8rem}
-.support .amt{font-family:var(--serif);font-size:1.8rem;display:block}
+/* ---------- Sections ---------- */
+section.block { padding: 4.5rem 0; border-bottom: 1px solid var(--rule); }
+section.block.alt { background: var(--surface); }
+.intro { font-size: 1.15rem; color: var(--ink-soft); max-width: var(--measure); margin: 0 0 2.5rem; }
 
-/* dates */
-.timeline{list-style:none;margin:0;padding:0;max-width:720px}
-.timeline li{display:grid;grid-template-columns:10.5rem 1fr;gap:1.25rem;padding:.85rem 0;border-bottom:1px solid var(--rule);position:relative}
-.timeline time{font-weight:600}
-.timeline li.next{background:linear-gradient(90deg,var(--honey-soft),transparent);margin:0 -1rem;padding-left:1rem;padding-right:1rem}
-.timeline .badge{display:inline-block;margin-left:.5rem;font-size:.8rem;font-weight:600;background:var(--ink);color:var(--paper);border-radius:999px;padding:.05rem .55rem;vertical-align:1px}
-.timeline li.final time,.timeline li.final span{font-family:var(--serif);font-weight:400;font-size:1.15rem}
-.note{font-size:.92rem;color:var(--muted);margin-top:1rem}
+/* About */
+.about-grid { display: grid; grid-template-columns: minmax(0, 1fr) 19rem; gap: 3.5rem; align-items: start; }
+.whys { list-style: none; margin: 0; padding: 1.5rem 1.6rem; background: var(--surface); border-left: 4px solid var(--hass); border-radius: 0 10px 10px 0; }
+.whys li { font-family: var(--serif); font-size: 1.3rem; line-height: 1.35; padding: .55rem 0; }
+.whys li + li { border-top: 1px solid var(--rule); }
+.whys small { display: block; font-family: var(--sans); font-size: .9rem; color: var(--ink-soft); margin-top: .2rem; }
 
-/* schedule */
-.sched{display:grid;grid-template-columns:1fr 1fr;gap:3rem}
-.sched h3{margin-bottom:.75rem}
-.sched td:first-child{width:4.5rem;font-variant-numeric:tabular-nums;color:var(--muted)}
-.sched tr.rt td{background:rgba(227,167,47,.18)}
-.sched tr.rt td:first-child{padding-left:.5rem}
-.sched tr.brk td{color:var(--muted);font-style:italic}
+/* Research process flow */
+.flow { margin: 0 0 3rem; padding: 2rem; background: var(--paper); border-radius: 12px; }
+.flow-steps { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr; align-items: center; gap: .5rem; }
+.flow-node {
+  background: var(--surface); border: 1.5px solid var(--ink); border-radius: 10px;
+  padding: .85rem 1rem; text-align: center; font-family: var(--serif); font-weight: 600; font-size: 1.05rem; line-height: 1.25;
+}
+.flow-node small { display: block; font-family: var(--sans); font-weight: 400; font-size: .82rem; color: var(--ink-soft); margin-top: .25rem; }
+.flow-arrow { color: var(--ink-soft); font-size: 1.4rem; text-align: center; }
+.flow-dirs { display: grid; grid-template-columns: repeat(3, 1fr); gap: .75rem; margin-top: 1rem; }
+.flow-dirs a {
+  display: block; text-decoration: none; color: var(--ink); font-size: .92rem; font-weight: 500;
+  border-top: 3px solid var(--both); padding-top: .5rem;
+}
+.flow-dirs a:hover { color: var(--both); }
+.flow-reason { display: flex; justify-content: space-between; gap: 1rem; margin-top: 1.25rem; font-size: .92rem; color: var(--ink-soft); flex-wrap: wrap; }
+.flow-reason span::before { font-weight: 600; color: var(--ink); }
+.flow-reason .fwd::after { content: "\00A0\27F6"; color: var(--ink); }
+.flow-reason .bwd::before { content: "\27F5\00A0"; }
 
-/* people */
-.people{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:2rem 2rem}
-.person{display:grid;grid-template-columns:3.5rem 1fr;gap:.9rem;align-items:start}
-.mono{width:3.5rem;height:3.5rem;border-radius:50%;background:var(--paper-2);border:2px solid var(--honey);display:grid;place-items:center;font-family:var(--serif);font-size:1.15rem;color:var(--bark);overflow:hidden}
-.mono img{width:100%;height:100%;object-fit:cover}
-.person h3{font-size:1.12rem;margin-bottom:.2rem}
-.person p{font-size:.93rem;color:var(--muted);margin:0}
-.speakers .person p.why{margin-top:.5rem;color:var(--ink)}
-.pc{columns:3 14rem;column-gap:2rem;list-style:none;padding:0;margin:0;font-size:.95rem}
-.pc li{padding:.2rem 0;break-inside:avoid}
-.sub{margin-top:3.5rem}
+/* Directions */
+.directions { display: grid; gap: 2.5rem; }
+.direction { display: grid; grid-template-columns: 15rem minmax(0, 1fr); gap: 2rem; }
+.direction-head h3 { font-size: 1.5rem; }
+.direction-body p { margin: 0 0 .9rem; max-width: var(--measure); }
+.questions { font-family: var(--serif); font-style: italic; color: var(--ink-soft); }
 
-footer{background:var(--forest);color:#CDD5C6;padding:3rem 0;font-size:.95rem}
-footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1.5rem}
-footer a{color:#EEF0E4}
+details { margin-top: .5rem; }
+summary {
+  cursor: pointer; font-weight: 600; color: var(--ink); list-style: none;
+  display: inline-flex; align-items: center; gap: .5rem; padding: .3rem 0;
+}
+summary::-webkit-details-marker { display: none; }
+summary::before {
+  content: "+"; display: inline-grid; place-items: center; width: 1.4rem; height: 1.4rem;
+  border: 1.5px solid currentColor; border-radius: 50%; font-size: .95rem; line-height: 1;
+}
+details[open] > summary::before { content: "\2212"; }
+.topics { columns: 2; column-gap: 2.5rem; margin: .75rem 0 0; padding-left: 1.1rem; }
+.topics li { break-inside: avoid; margin-bottom: .45rem; }
 
-@media (max-width:860px){
-  .hero .wrap,.two,.sched{grid-template-columns:1fr;gap:2rem}
-  .zones{grid-template-columns:1fr}
-  .zone-col,.zone-col + .zone-col{padding:1.75rem 0;border-left:0;border-bottom:1px solid var(--rule)}
-  .support{grid-template-columns:1fr}
-  .timeline li{grid-template-columns:1fr;gap:.15rem}
-  .nav .brand{display:none}
-  .nav ul{margin-left:0}
+/* Submission details */
+.submit-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem 3rem; margin: 3.5rem 0 0; }
+.submit-grid > div { border-top: 1.5px solid var(--ink); padding-top: 1rem; }
+.submit-grid p { margin: 0 0 .7rem; }
+.submit-grid .tag { margin-right: 0; }
+
+.tag {
+  display: inline-block; font-size: .8rem; font-weight: 600; padding: .12rem .55rem; border-radius: 4px;
+  margin-right: .35rem; vertical-align: .08em;
+}
+.tag-tech { background: var(--tech-tint); color: var(--tech); }
+.tag-hass { background: var(--hass-tint); color: var(--hass); }
+.tag-both { background: var(--both-tint); color: var(--both); }
+
+.examples { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; margin: 1.5rem 0; }
+.example { margin: 0; padding: 1.1rem 1.25rem; background: var(--paper); border-radius: 10px; }
+.example.tech { border-left: 4px solid var(--tech); }
+.example.hass { border-left: 4px solid var(--hass); }
+.example blockquote { margin: .6rem 0 0; font-family: var(--serif); font-size: 1rem; line-height: 1.55; }
+.not-this { max-width: var(--measure); padding: 1rem 1.25rem; border: 1.5px dashed var(--rule); border-radius: 10px; color: var(--ink-soft); }
+
+.table-scroll { overflow-x: auto; margin-top: 1rem; }
+table { border-collapse: collapse; width: 100%; font-size: .95rem; }
+th, td { text-align: left; vertical-align: top; padding: .7rem .8rem; border-bottom: 1px solid var(--rule); }
+thead th { font-weight: 600; border-bottom: 1.5px solid var(--ink); }
+.rubric { min-width: 760px; }
+.rubric th[scope="row"] { font-family: var(--serif); width: 11rem; }
+
+/* Dates timeline */
+.timeline { list-style: none; margin: 0; padding: 0; max-width: 46rem; counter-reset: step; }
+.timeline li { display: grid; grid-template-columns: 11rem 1fr; gap: 1.5rem; padding: 1.1rem 0; border-bottom: 1px solid var(--rule); position: relative; }
+.timeline time { font-family: var(--serif); font-weight: 600; font-size: 1.1rem; }
+.timeline .what { font-weight: 500; }
+.timeline .what small { display: block; color: var(--ink-soft); font-weight: 400; font-size: .92rem; }
+.timeline li.past { color: var(--ink-soft); }
+.timeline li.past time { text-decoration: line-through; text-decoration-thickness: 1px; }
+.timeline li.next { background: var(--surface); margin: 0 -1rem; padding-left: 1rem; padding-right: 1rem; border-radius: 10px; border-bottom-color: transparent; box-shadow: inset 4px 0 0 var(--both); }
+.timeline li.next .what::after { content: "Up next"; display: inline-block; margin-left: .6rem; font-size: .78rem; font-weight: 600; color: var(--both); background: var(--both-tint); padding: .08rem .5rem; border-radius: 4px; vertical-align: .1em; }
+.note { color: var(--ink-soft); font-size: .95rem; margin-top: 1.25rem; }
+
+/* Programme */
+.format-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2.5rem; margin-bottom: 3rem; }
+.format-grid p { margin: 0 0 .9rem; }
+.pair-table { width: 100%; font-size: .93rem; margin-top: .5rem; }
+.pair-table td, .pair-table th { padding: .55rem .6rem; }
+.lanyards { display: flex; flex-wrap: wrap; gap: 1.25rem; margin-top: .75rem; }
+.lanyard { display: inline-flex; align-items: center; gap: .5rem; font-size: .93rem; font-weight: 500; }
+.lanyard::before { content: ""; width: .7rem; height: 1.8rem; border-radius: 3px; background: var(--c); }
+
+.schedule { max-width: 52rem; }
+.schedule td:first-child { font-family: var(--serif); font-weight: 600; white-space: nowrap; width: 5.5rem; }
+.schedule tr.half th { font-family: var(--serif); font-size: 1.1rem; padding-top: 1.6rem; border-bottom: 1.5px solid var(--ink); }
+.schedule .kind { color: var(--ink-soft); font-size: .88rem; white-space: nowrap; }
+.schedule tr.pair td { background: var(--both-tint); }
+.schedule tr.social td { background: #EEF1F5; }
+
+/* People */
+.legend { display: flex; flex-wrap: wrap; gap: 1.25rem; margin: -0.5rem 0 2rem; font-size: .93rem; color: var(--ink-soft); }
+.legend span { display: inline-flex; align-items: center; gap: .45rem; }
+.legend span::before { content: ""; width: .65rem; height: 1.4rem; border-radius: 3px; background: var(--c); }
+.people { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 330px), 1fr)); gap: 2.25rem 2.5rem; }
+.person { display: grid; grid-template-columns: 5.5rem 1fr; gap: 1.1rem; align-items: start; }
+.avatar {
+  width: 5.5rem; height: 5.5rem; border-radius: 50%; display: grid; place-items: center;
+  font-family: var(--serif); font-weight: 600; font-size: 1.6rem; color: var(--c);
+  background: var(--t); box-shadow: 0 0 0 3px var(--paper), 0 0 0 6px var(--c); overflow: hidden;
+}
+.alt .avatar { box-shadow: 0 0 0 3px var(--surface), 0 0 0 6px var(--c); }
+.avatar img { width: 100%; height: 100%; object-fit: cover; }
+.person h3 { font-size: 1.2rem; margin-bottom: .15rem; }
+.person .role { color: var(--ink-soft); font-size: .93rem; line-height: 1.45; margin: 0 0 .55rem; }
+.person p { margin: 0; font-size: .97rem; }
+.p-tech { --c: var(--tech); --t: var(--tech-tint); }
+.p-hass { --c: var(--hass); --t: var(--hass-tint); }
+.p-both { --c: var(--both); --t: var(--both-tint); }
+.panel-note { margin-top: 3rem; max-width: var(--measure); padding: 1.25rem 1.5rem; background: var(--surface); border-radius: 10px; }
+.alt .panel-note { background: var(--paper); }
+.panel-note p { margin: 0; }
+.pc-list { columns: 3; column-gap: 2rem; list-style: none; padding: 0; margin: 1rem 0 0; font-size: .95rem; }
+.pc-list li { break-inside: avoid; padding: .2rem 0; }
+.pc-list small { color: var(--ink-soft); }
+
+/* Participation */
+.participate { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2.5rem; }
+.participate p { margin: 0; }
+
+/* Footer */
+footer { padding: 3.5rem 0 4rem; }
+.foot { display: grid; grid-template-columns: 1.4fr 1fr; gap: 2rem; align-items: end; }
+.foot h2 { font-size: 1.8rem; margin-bottom: .6rem; }
+.foot p { margin: 0 0 .5rem; color: var(--ink-soft); }
+.foot .small { font-size: .88rem; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  .about-grid, .format-grid, .participate, .foot { grid-template-columns: 1fr; gap: 2rem; }
+  .direction { grid-template-columns: 1fr; gap: .5rem; }
+  .submit-grid, .examples { grid-template-columns: 1fr; }
+  .pc-list { columns: 2; }
+}
+@media (max-width: 720px) {
+  .flow-steps { grid-template-columns: 1fr; }
+  .flow-arrow { transform: rotate(90deg); line-height: 1; }
+  .flow-dirs { grid-template-columns: 1fr; }
+  .topics { columns: 1; }
+  .timeline li { grid-template-columns: 1fr; gap: .2rem; }
+  .hero { padding: 3rem 0; }
+  section.block { padding: 3.5rem 0; }
+}
+@media (max-width: 520px) {
+  .pc-list { columns: 1; }
+  .person { grid-template-columns: 4.25rem 1fr; }
+  .avatar { width: 4.25rem; height: 4.25rem; font-size: 1.25rem; }
 }
 </style>
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 
-<nav class="nav" aria-label="Sections">
+<header class="topbar">
   <div class="wrap">
-    <a class="brand" href="#top">Goldilocks @ ICLR 2027</a>
-    <ul>
-      <li><a href="#zones">Zones</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#cfp">Call for papers</a></li>
-      <li><a href="#dates">Dates</a></li>
-      <li><a href="#schedule">Schedule</a></li>
-      <li><a href="#speakers">Speakers</a></li>
-      <li><a href="#organizers">Organizers</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </div>
-</nav>
-
-<header class="hero" id="top">
-  <div class="wrap">
-    <div>
-      <h1>Goldilocks’ Workshop on Finding “Just Right” in Agentic AI</h1>
-      <p class="lede">Model scale, data, training, inference budgets and agent harnesses interact. Some combinations land in a sweet spot and work surprisingly well. This workshop is about finding those spots, understanding them, and optimizing for them.</p>
-      <p class="when">ICLR 2027, San Francisco. Full day, in person, on 29 or 30 April 2027.</p>
-      <div class="btns">
-        <a class="btn btn-gold" href="#cfp">Read the call for papers</a>
-        <a class="btn btn-line" href="#dates">See key dates</a>
-      </div>
-    </div>
-
-    <figure class="curve-fig">
-      <svg id="curve" viewBox="0 0 600 300" role="img" aria-labelledby="curve-title">
-        <title id="curve-title">An inverted-U performance curve: performance rises with investment, peaks in a shaded just-right zone, then falls.</title>
-      </svg>
-      <div class="slider-row">
-        <label for="invest">How much?</label>
-        <input id="invest" type="range" min="0" max="100" value="8" aria-describedby="readout">
-      </div>
-      <p class="readout" id="readout" aria-live="polite"></p>
-      <figcaption>Slide to add more of anything: reasoning tokens, training steps, human input.</figcaption>
-    </figure>
+    <a class="brand" href="#top">AI4Y<span>?</span></a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#about">About</a>
+      <a href="#cfp">Call for papers</a>
+      <a href="#dates">Dates</a>
+      <a href="#programme">Programme</a>
+      <a href="#speakers">Speakers</a>
+      <a href="#organizers">Organizers</a>
+      <a href="#contact">Contact</a>
+    </nav>
   </div>
 </header>
 
-<main>
+<main id="main">
 
-<section id="zones">
+<!-- ================= HERO ================= -->
+<section class="hero" id="top">
   <div class="wrap">
-    <h2>Three bears, three zones</h2>
-    <p class="prose">A Goldilocks zone shows up in three recurring ways. Each one asks a different question about the same system.</p>
+    <!-- TODO: once accepted, change this line to e.g. "ICLR 2027 Workshop, [venue], [day] April 2027" -->
+    <p class="status">Proposed workshop at ICLR 2027. </p>
 
-    <div class="zones">
-      <article class="zone-col">
-        <svg viewBox="0 0 120 80" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M44 30c-5-6 5-9 0-16M60 30c-5-6 5-9 0-16M76 30c-5-6 5-9 0-16" stroke="var(--hot)"/>
-          <path d="M18 40H102A42 28 0 0 1 18 40Z" fill="var(--honey-soft)"/>
-          <path d="M50 70H70"/>
-        </svg>
-        <h3>Saturation</h3>
-        <p class="story">Papa Bear’s porridge: hotter is not always better.</p>
-        <p>Spending more on reasoning, training or human intervention eventually stops paying off, and can start to hurt. The zone is the budget that balances performance against cost.</p>
-        <p class="eg">Extra inference-time compute that no longer improves agentic reasoning.</p>
-      </article>
+    <h1 class="wordmark" aria-label="AI4Y?">AI4<span class="slot is-why" id="slot">Y?</span></h1>
 
-      <article class="zone-col">
-        <svg viewBox="0 0 120 80" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M6 48H30V53H6Z" fill="var(--honey-soft)"/>
-          <path d="M6 12V72M30 53V72"/>
-          <path d="M40 56H60V60H40Z" fill="var(--honey-soft)"/>
-          <path d="M40 30V72M60 60V72"/>
-          <path d="M70 63H84V66H70Z" fill="var(--honey-soft)"/>
-          <path d="M70 46V72M84 66V72"/>
-          <circle cx="100" cy="66" r="5.5" fill="var(--honey-soft)"/>
-          <circle cx="112" cy="66" r="5.5" fill="var(--honey-soft)"/>
-          <circle cx="106" cy="56.5" r="5.5" fill="var(--honey-soft)"/>
-          <path d="M2 72H118"/>
-        </svg>
-        <h3>Allocation</h3>
-        <p class="story">Mama Bear’s chair: how tall can we built it and still leave enough wood for Papa and Baby?</p>
-        <p>A fixed budget of tokens, GPUs, annotations or human effort has to be divided across sub-agents or stages. The zone is the split that gets near-optimal results.</p>
-        <p class="eg">Dividing an annotation budget between supervised fine-tuning and RL in post-training.</p>
-      </article>
+    <p class="lede">Rethinking the values and societal implications of AI research</p>
 
-      <article class="zone-col">
-        <svg viewBox="0 0 120 80" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M10 70V24M110 70V44"/>
-          <path d="M10 50H110V60H10Z"/>
-          <ellipse cx="26" cy="44" rx="11" ry="5.5" fill="var(--paper-2)"/>
-          <path d="M42 50V42Q76 34 110 42V50" fill="var(--honey-soft)"/>
-        </svg>
-        <h3>Synergy</h3>
-        <p class="story">Baby Bear’s bed: mattress, pillow and quilt only work together.</p>
-        <p>Models, harnesses and tools combine so that the whole beats any part on its own. The zone is the configuration that makes the most of their complementary strengths.</p>
-        <p class="eg">Autonomous research agents paired with structured Bayesian optimization.</p>
-      </article>
+    <p class="hero-meta">AI4X builds machine learning to reach a goal in some domain. AI4Y? asks where the goal came from. A full-day, in-person workshop bringing ICLR researchers together with scholars in the humanities, arts, and social sciences.<br>
+    <strong>29 or 30 April 2027</strong>, ICLR 2027, California, USA.</p>
+
+    <div class="actions">
+      <a class="btn btn-primary" href="#cfp">Read the call for papers</a>
+      <a class="btn btn-secondary" href="#dates">See key dates</a>
     </div>
   </div>
 </section>
 
-<section id="about">
-  <div class="wrap two">
+<!-- ================= ABOUT ================= -->
+<section class="block" id="about">
+  <div class="wrap about-grid">
     <div class="prose">
-      <h2>Why a workshop on this, now</h2>
-      <p>Agentic systems now combine models, reasoning procedures, tools, memory, retrieval, human input, and training and inference pipelines. As the number of interacting parts grows, good configurations get harder to find, and what works in one system often fails to transfer to another.</p>
-      <p>Findings about saturation, allocation and synergy are scattered across papers as isolated ablations and heuristics. Papers report the best setting, but rarely the shape of the optimum, why it exists, where its edges are, or whether it carries over. That makes recurring patterns hard to see.</p>
-      <p>This workshop brings these observations together, and pairs researchers who see Goldilocks zones empirically with those building theory and optimization methods to explain and navigate them.</p>
+      <h2>Why this, and not something else?</h2>
+      <p>In AI4X research, machine learning methods are developed to navigate challenges and achieve outcomes in specific scientific domains. AI4Y? looks one step earlier in the research process. It asks why particular motivations are pursued as technical problems, why certain technical choices are made, and why some outcomes are treated as desirable or prioritized over others.</p>
+      <p>AI research often answers these questions implicitly. Deciding how work should be split between humans and AI presupposes a view of which roles suit each. Designing tasks around successful completion can lead models to pursue that objective beyond the intended environment. Trading helpfulness against safety in RLHF, choosing among human-specified rewards, or balancing neutrality against substantive engagement in preference data all make consequential judgments about what matters most.</p>
+      <p>Scholars in the humanities, arts, and social sciences (HASS) make those judgments explicit. They have shown how technologies are embedded in social and cultural systems rather than simply meeting pre-existing needs, how designs can embody forms of power and authority, and how users keep renegotiating what a system is for.</p>
+      <p>AI4Y? brings these communities into one conversation. Technical AI can formalize values and turn them into interventions; HASS can surface the motivations, priorities, and consequences those formalizations carry. The workshop complements existing work on AI ethics, safety, alignment, and responsible AI by focusing on the stage where research problems are first defined.</p>
     </div>
-    <div class="prose">
-      <h3>What comes out of it</h3>
-      <p>Contributed papers, invited talks and two roundtables feed into a public <strong>Goldilocks Research Agenda</strong>: a lasting reference on the mechanisms behind saturation, allocation and synergy, and on how to find and optimize for these zones.</p>
-      <h3 style="margin-top:1.75rem">Two roundtables</h3>
-      <p><strong>Finding Goldilocks problems</strong> looks at recurring phenomena, their causes and open questions. <strong>Finding Goldilocks solutions</strong> looks at methods to explain, locate, navigate or widen these zones. Each starts with 4 to 6 invited authors, and everyone is welcome to join.</p>
-    </div>
+    <ul class="whys" aria-label="The three questions AI4Y? asks">
+      <li>Why this motivation?<small>How a desired outcome becomes a technical problem</small></li>
+      <li>Why this technical choice?<small>Which values an objective, dataset, or metric encodes</small></li>
+      <li>Why this outcome?<small>Which goals win when they conflict, and who decides</small></li>
+    </ul>
   </div>
 </section>
 
-<section id="cfp">
+<!-- ================= CALL FOR PAPERS ================= -->
+<section class="block alt" id="cfp">
   <div class="wrap">
     <h2>Call for papers</h2>
-    <div class="two">
-      <div class="prose">
-        <p>We welcome both <strong>Goldilocks problems in agents</strong> and <strong>agents for solving Goldilocks problems</strong> across AI research. That includes empirical problems in models and pipelines that aren’t agentic themselves, and theoretical problems, for example in game theory or in combining classical optimization with agentic workflows.</p>
-        <p>When you submit, choose one of two categories: <strong>Empirical</strong> (identifying and characterizing Goldilocks phenomena) or <strong>Optimization &amp; Theory</strong> (explaining and navigating Goldilocks zones). Empirical posters present in the morning, Optimization &amp; Theory in the afternoon, so you can visit the other session.</p>
-        <p>Reviews focus on clarity, rigor and novelty. For empirical work, we especially value papers that characterize the structure around a zone, not just report a best configuration. The workshop is non-archival; accepted papers stay on the website and OpenReview.</p>
+    <p class="intro">We invite novel and ongoing technical, empirical, and conceptual research on why particular AI research problems are pursued, how motivations and values shape technical choices, and what consequences those choices produce. Submissions from technical AI and from HASS are equally welcome, and each is reviewed by the standards of its own field.</p>
+
+    <div class="flow" role="figure" aria-label="The research process AI4Y? examines, from motivations to trade-offs, read forward and backward">
+      <div class="flow-steps">
+        <div class="flow-node">Motivations and values<small>autonomy, fairness, flourishing</small></div>
+        <div class="flow-arrow" aria-hidden="true">&#10230;</div>
+        <div class="flow-node">Technical problem<small>objectives, data, evaluations</small></div>
+        <div class="flow-arrow" aria-hidden="true">&#10230;</div>
+        <div class="flow-node">Consequences<small>behaviours and outcomes</small></div>
+        <div class="flow-arrow" aria-hidden="true">&#10230;</div>
+        <div class="flow-node">Trade-offs<small>goals that conflict</small></div>
+      </div>
+      <div class="flow-dirs">
+        <a href="#dir-motivation">From motivation to technical problem</a>
+        <a href="#dir-consequences">From technical choice to consequences</a>
+        <a href="#dir-tradeoffs">Trade-offs between desired outcomes</a>
+      </div>
+      <div class="flow-reason">
+        <span class="fwd">Forward reasoning: from values to choices and their effects</span>
+        <span class="bwd">Backward reasoning: from observed effects to the formulations behind them</span>
+      </div>
+    </div>
+
+    <div class="directions">
+      <article class="direction" id="dir-motivation">
+        <div class="direction-head"><h3>From motivation to technical problem</h3></div>
+        <div class="direction-body">
+          <p>Concepts such as autonomy, distributive justice, meaningful work, pluralism, or human flourishing don't arrive as ready-made machine learning objectives. Someone has to decide how they are represented through objectives, constraints, preference distributions, datasets, benchmarks, or algorithms.</p>
+          <p class="questions">What is lost when a socially desired outcome is formalized? Whose preferences are represented? How should contested or plural values be encoded when there is no single agreed target?</p>
+          <details>
+            <summary>Example topics</summary>
+            <ul class="topics">
+              <li>Agentic cooperation, coordination, collective behaviour, and social choice</li>
+              <li>Resource allocation, welfare, and preference aggregation</li>
+              <li>Human–AI collaboration, delegation, and preservation of human agency</li>
+              <li>Trustworthy, safe, reliable, and controllable AI systems</li>
+              <li>Pluralistic or value-aware alignment</li>
+              <li>New objectives, benchmarks, algorithms, or theory motivated by desired societal outcomes</li>
+              <li>Conceptual analyses of values such as autonomy, fairness, meaningful work, or flourishing, and what is gained or lost when they are operationalized</li>
+              <li>Formalizing such values as technical objectives or constraints</li>
+              <li>Participatory, deliberative, or qualitative methods for eliciting the outcomes affected communities want</li>
+              <li>Historical and sociological studies of how research problems, benchmarks, or subfields came to be defined</li>
+            </ul>
+          </details>
+        </div>
+      </article>
+
+      <article class="direction" id="dir-consequences">
+        <div class="direction-head"><h3>From technical choice to consequences</h3></div>
+        <div class="direction-body">
+          <p>Technical research can establish what objectives, datasets, architectures, algorithms, and evaluations actually produce. HASS offers empirical and normative perspectives on what those effects mean socially, legally, and institutionally.</p>
+          <p class="questions">How do objectives, datasets, or metrics shape what AI systems do? What assumptions do these choices encode? How can evidence of unintended consequences inform redesign?</p>
+          <details>
+            <summary>Example topics</summary>
+            <ul class="topics">
+              <li>Objectives, loss functions, reward models, and optimization procedures that privilege particular behaviours, especially feedback-based and alignment optimization</li>
+              <li>Biases or unintended preferences in datasets, annotations, or human feedback</li>
+              <li>Benchmarks and evaluations that reward undesirable or incomplete notions of progress</li>
+              <li>Architectural or system-design choices that affect autonomy, participation, access, or control</li>
+              <li>Empirical analyses of unintended consequences or hidden assumptions in ML formulations</li>
+              <li>Alternative objectives, datasets, benchmarks, metrics, or designs that better reflect intended outcomes</li>
+              <li>Ethnographic, interview, or labour studies of the people who produce data, annotations, and feedback</li>
+              <li>Legal, regulatory, and institutional analyses of design choices for accountability, liability, competition, or rights</li>
+              <li>Critical and philosophical analyses of assumptions in widely used objectives, benchmarks, or evaluation practices</li>
+              <li>How AI systems are taken up, resisted, or repurposed compared with their designed purposes</li>
+            </ul>
+          </details>
+        </div>
+      </article>
+
+      <article class="direction" id="dir-tradeoffs">
+        <div class="direction-head"><h3>Trade-offs between desired outcomes</h3></div>
+        <div class="direction-body">
+          <p>Observed consequences may show that several desirable outcomes can't all be realized at once. Technical researchers bring multi-objective optimization, Pareto frontiers, constrained optimization, preference learning, and social choice to characterize these trade-offs.</p>
+          <p class="questions">Which outcomes should be traded off at all? Are they commensurable? Who bears the costs, and who should choose the operating point?</p>
+          <details>
+            <summary>Example topics</summary>
+            <ul class="topics">
+              <li>Safety–helpfulness and robustness–utility trade-offs</li>
+              <li>Personalization–pluralism and individual–collective welfare</li>
+              <li>Automation–human agency and performance–human learning</li>
+              <li>Efficiency–fairness and privacy–utility</li>
+              <li>Multi-objective optimization, Pareto methods, constrained learning, and preference learning</li>
+              <li>Methods for identifying, measuring, or navigating competing objectives</li>
+              <li>When trade-offs are fundamental and when better formulations or design can reduce them</li>
+              <li>Normative analyses of which outcomes can legitimately be compared or traded</li>
+              <li>How technical choices distribute benefits, costs, and decision-making authority across stakeholders</li>
+              <li>Legal and policy frameworks for adjudicating competing values, such as proportionality and balancing tests</li>
+            </ul>
+          </details>
+        </div>
+      </article>
+    </div>
+
+    <div class="submit-grid" id="submit">
+      <div>
+        <h3>Format</h3>
+        <p>Tiny papers of 2 pages or short papers of 4 pages, excluding references and appendices.</p>
+        <p>Technical tiny papers can report late-breaking experiments, self-contained theoretical results, re-analyses of published work, or fresh perspectives on existing papers. HASS tiny papers can present a single urgent finding, a direct reply to a recent technical paper, or a short communication on trends in AI venues.</p>
       </div>
       <div>
-        <table>
-          <thead><tr><th>Track</th><th>Length</th><th>Opens</th></tr></thead>
-          <tbody>
-            <tr><td>Main, full paper</td><td>Up to 8 pages</td><td>1 Dec 2026</td></tr>
-            <tr><td>Main, short paper</td><td>Up to 4 pages</td><td>1 Dec 2026</td></tr>
-            <tr><td>Tiny papers</td><td>Up to 2 pages</td><td>1 Dec 2026</td></tr>
-            <tr><td>Collaboration</td><td>Up to 2 pages</td><td>1 Apr 2027</td></tr>
-          </tbody>
-        </table>
-        <p class="note">Page limits exclude references and appendices. Collaboration Track papers build on an accepted workshop paper, with at least one original author and one new collaborator. Early-stage ideas without experiments are welcome.</p>
+        <h3>Category</h3>
+        <p>Every submission declares a primary category, <span class="tag tag-tech">Technical</span> or <span class="tag tag-hass">HASS</span>, which sets the methodological standards used in review. Interdisciplinary work should pick the category that best reflects its main contribution.</p>
+        <p>HASS submissions may follow their field's conventions (author–date citations, footnotes, essay form). Conceptual, qualitative, legal, historical, and critical work is welcome; new empirical results are not required.</p>
+      </div>
+      <div>
+        <h3>Archival status</h3>
+        <p>The workshop is non-archival. Accepted papers remain publicly available on OpenReview and on this website, and you are free to publish them elsewhere.</p>
+      </div>
+      <div>
+        <h3>Use of LLMs</h3>
+        <p>Follow the ICLR 2027 LLM usage policy. AI-generated papers are not allowed in either format. AI assistance is permitted, but submissions must be primarily human-authored, reflecting the authors' original thought and analysis. Papers that study LLMs or use LLM outputs as research data are welcome: this policy is about authorship, not subject matter.</p>
       </div>
     </div>
 
-    <div class="statement">
-      <h3>Begin with a Goldilocks statement</h3>
-      <p class="prose" style="margin:0">Every submission opens with one sentence naming what is being varied, what goes wrong with too little and too much of it, and the middle ground the paper studies.</p>
-      <blockquote>“Too little <span class="ph">[X]</span> leads to <span class="ph">[outcome A]</span>, whereas too much <span class="ph">[X]</span> leads to <span class="ph">[outcome B]</span>; this paper investigates how to identify or achieve an intermediate level that <span class="ph">[desired outcome]</span>.”</blockquote>
+    <div style="margin-top:3.5rem" id="positioning">
+      <h3>Positioning statement</h3>
+      <div class="prose">
+        <p>Every submission opens with a positioning statement of at most 100 words, placed before the abstract. It should name (i) the value, motivation, or desired outcome at stake; (ii) how the paper examines the link between motivations, technical formulations, and observed consequences or trade-offs; and (iii) an unresolved societal question that would benefit from cross-disciplinary discussion. <strong>Submissions without one will be desk rejected.</strong></p>
+      </div>
+      <div class="examples">
+        <figure class="example tech">
+          <figcaption><span class="tag tag-tech">Technical</span>Motivation to problem</figcaption>
+          <blockquote>Value: user autonomy in AI-assisted writing. We formalize autonomy as the share of final text a user would endorse without the assistant's suggestion, and train against it. However, does endorsement adequately capture autonomy, particularly when AI assistance may affect users' long-term writing skills and independence?</blockquote>
+        </figure>
+        <figure class="example tech">
+          <figcaption><span class="tag tag-tech">Technical</span>Choice to consequences</figcaption>
+          <blockquote>Value: warranted trust. We show that a reward model favors confident phrasing over calibrated uncertainty, tracing this to annotation guidelines that reward helpfulness without verifying correctness. How should AI systems communicate uncertainty to support appropriately calibrated trust across different users and contexts?</blockquote>
+        </figure>
+        <figure class="example hass">
+          <figcaption><span class="tag tag-hass">HASS</span>Choice to consequences</figcaption>
+          <blockquote>Value: preventing harm. Drawing on interviews with 30 annotators, we show how safety annotation guidelines diverge from annotators' own judgments of harm. Whose understanding of harm should guide model training, particularly when judgments differ across cultural and social contexts?</blockquote>
+        </figure>
+        <figure class="example hass">
+          <figcaption><span class="tag tag-hass">HASS</span>Position paper on trade-offs</figcaption>
+          <blockquote>Value: equal access to AI assistance. We argue that the safety-helpfulness trade-off differs across languages and dialects because refusal rates and their costs are unevenly distributed. How should AI systems balance safety and accessibility when different user groups bear different costs?</blockquote>
+        </figure>
+      </div>
+      <p class="not-this">Not enough: "This paper is relevant because it studies the societal implications of LLMs." It names no value, no research choice, and nothing gained or lost.</p>
     </div>
 
-    <div class="topics">
-      <h3>Topics include, but are not limited to</h3>
+    <div style="margin-top:3rem" id="review">
+      <h3>How papers are reviewed</h3>
+      <div class="prose">
+        <p>Technical and HASS papers share one rubric so they are valued equally, but each is judged by the conventions of its own tradition. Conceptual and position papers aren't expected to include new empirical results; they should make a clear, well-supported argument with concrete implications for AI research. Reviewers nominate papers for a Best Paper Award in each category.</p>
+        <p>Conflicts of interest are managed through OpenReview. Organizers and reviewers do not assess submissions from their own institutions or where they have other professional or personal conflicts.</p>
+      </div>
       <details>
-        <summary>Saturation in agents</summary>
-        <div class="body">
-          <p><span class="tag">Empirical.</span> Along which axes (inference-time compute, training duration, context or memory size, model scale, autonomy, human intervention) do returns flatten or reverse, and what failures appear past the useful range?</p>
-          <p><span class="tag">Theoretical.</span> Under what assumptions does such a range exist, and how can optimal stopping or adaptive methods locate and track it as tasks, models or environments change?</p>
+        <summary>Read the full review rubric</summary>
+        <div class="table-scroll">
+          <table class="rubric">
+            <thead>
+              <tr><th scope="col">Criterion</th><th scope="col">1, poor</th><th scope="col">2, fair</th><th scope="col">3, good</th><th scope="col">4, excellent</th></tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">Relevance to the workshop</th><td>Does not identify the value, motivation, or desired outcome at stake, or mentions it only in passing.</td><td>Identifies the value but does not connect it to a specific research choice.</td><td>Clearly connects a value to a specific research choice and examines that connection.</td><td>Makes that connection central, in a way that could change how researchers formulate, evaluate, or prioritize problems.</td></tr>
+              <tr><th scope="row">Clarity of question or argument</th><td>The central question or argument is hard to identify or understand.</td><td>Identifiable, but important aspects of motivation, scope, or reasoning are unclear.</td><td>Clear, well-motivated, and generally easy to follow.</td><td>Particularly clear, precisely scoped, and compellingly presented.</td></tr>
+              <tr><th scope="row">Methodological or conceptual soundness</th><td>Central claims are unsupported or the reasoning has major flaws.</td><td>Plausible, but with important weaknesses or insufficient evidence.</td><td>Methods, evidence, or reasoning support the central claims, with minor limitations.</td><td>Rigorous and compelling support for the central claims.</td></tr>
+              <tr><th scope="row">Significance</th><td>Unclear what the paper adds or why it matters.</td><td>A recognizable contribution with limited or unestablished implications.</td><td>Useful knowledge, methods, evidence, or questions for later research or practice.</td><td>Could substantially influence how AI research problems are formulated or their consequences understood.</td></tr>
+            </tbody>
+          </table>
         </div>
-      </details>
-      <details>
-        <summary>Allocation in agents</summary>
-        <div class="body">
-          <p><span class="tag">Empirical.</span> Under a fixed budget, how should compute, data, rollouts, context tokens, tool calls or human effort be divided across agents, tasks, stages and components? How do good allocations shift with capability, difficulty or budget?</p>
-          <p><span class="tag">Theoretical.</span> What principles and algorithms characterize optimal allocations, and what scaling laws or invariances let them transfer across model scales, tasks or budgets?</p>
-        </div>
-      </details>
-      <details>
-        <summary>Synergy in agents</summary>
-        <div class="body">
-          <p><span class="tag">Empirical.</span> Which combinations of agents, models, tools, memory, retrieval, search or human input are complementary or antagonistic? Which ablations or factorial experiments separate real interaction effects from simply stronger components?</p>
-          <p><span class="tag">Theoretical.</span> How can complementarity or interference be formalized, and how can an optimizer find productive combinations without evaluating them all?</p>
-        </div>
-      </details>
-      <details>
-        <summary>Characterization and validation</summary>
-        <div class="body"><p>Which signals (uncertainty, diversity, latency, marginal gains) show a system entering or leaving a Goldilocks zone? How can its geometry be characterized, and how can real structure be told apart from optima caused by noise or small evaluation budgets?</p></div>
-      </details>
-      <details>
-        <summary>Generalization and redesign</summary>
-        <div class="body"><p>How stable are Goldilocks zones across agent configurations, model scales, datasets, domains, distribution shift and deployment constraints? Which sweet spots transfer? Can design shift, widen or remove their boundaries, for instance by delaying saturation or enabling new synergies?</p></div>
-      </details>
-      <details>
-        <summary>Efficient optimization</summary>
-        <div class="body"><p>How can multi-fidelity, Bayesian or bi-level optimization, or adaptive experimental design, locate Goldilocks zones when configurations are expensive, noisy, high-dimensional, combinatorial or interacting? What makes these zones identifiable from limited observations?</p></div>
-      </details>
-      <details>
-        <summary>Agents for empirical and theoretical discovery</summary>
-        <div class="body"><p>How can agents propose hypotheses, run experiments and analyze results to discover and explain saturation, allocation and synergy in training, data selection, inference and model composition? How can they form conjectures and develop proofs or counterexamples for problems like resource allocation or equilibrium analysis? How are findings reproduced and verified?</p></div>
-      </details>
-      <details>
-        <summary>Agents for optimization across AI</summary>
-        <div class="body"><p>How can agents, alone or with structured search, find, track or improve Goldilocks zones, including outside agentic systems? How do they compare with non-agentic methods at matched budgets, and what guarantees hold for search efficiency or solution quality?</p></div>
       </details>
     </div>
 
-    <!-- TODO: replace with your OpenReview link once the venue is created -->
-    <p class="portal">Submissions will open on OpenReview on 1 December 2026. Use the ICLR 2027 author kit.</p>
-
-    <div class="support">
-      <div><span class="amt">US$1,000</span>Best paper awards, Main and Tiny Papers tracks</div>
-      <div><span class="amt">US$500</span>Best paper awards, Collaboration Track</div>
-      <div><span class="amt">US$4,000</span>Travel grants for attendees who need support, with priority for early-career researchers</div>
+    <div class="actions" style="margin-top:2.5rem">
+      <!-- TODO: replace # with your OpenReview venue URL once it exists -->
+      <a class="btn btn-primary" href="#">Submit on OpenReview</a>
+      <span class="note" style="margin:0;align-self:center">Submissions open by 1 December 2026.</span>
     </div>
   </div>
 </section>
 
-<section id="dates">
+<!-- ================= DATES ================= -->
+<section class="block" id="dates">
   <div class="wrap">
     <h2>Key dates</h2>
-    <ol class="timeline">
-      <li data-date="2026-12-01"><time datetime="2026-12-01">1 Dec 2026</time><span>Call for papers, Main and Tiny Papers tracks</span></li>
-      <li data-date="2027-02-01"><time datetime="2027-02-01">1 Feb 2027</time><span>Submission deadline, Main and Tiny Papers tracks</span></li>
-      <li data-date="2027-02-26"><time datetime="2027-02-26">26 Feb 2027</time><span>Decisions and reviews released, accepted papers public on OpenReview</span></li>
-      <li data-date="2027-04-01"><time datetime="2027-04-01">1 Apr 2027</time><span>Camera-ready papers and posters due, full program posted, Collaboration Track opens</span></li>
-      <li data-date="2027-04-28"><time datetime="2027-04-28">28 Apr 2027</time><span>Collaboration Track deadline</span></li>
-      <li data-date="2027-04-29"><time datetime="2027-04-29">29 Apr 2027</time><span>Collaboration Track decisions</span></li>
-      <li data-date="2027-04-30" class="final"><time datetime="2027-04-29">29 or 30 Apr 2027</time><span>Workshop day in San Francisco</span></li>
+    <ol class="timeline" id="timeline">
+      <li data-date="2026-12-01"><time datetime="2026-12-01">1 Dec 2026</time><span class="what">Call for papers released, submissions open</span></li>
+      <li data-date="2027-02-01"><time datetime="2027-02-01">1 Feb 2027</time><span class="what">Submission deadline</span></li>
+      <li data-date="2027-02-23"><time datetime="2027-02-02">2–23 Feb 2027</time><span class="what">Reviewing period<small>Meta-reviews follow from 23 to 25 February</small></span></li>
+      <li data-date="2027-02-26"><time datetime="2027-02-26">26 Feb 2027</time><span class="what">Decisions, reviews, and meta-reviews released</span></li>
+      <li data-date="2027-04-15"><time datetime="2027-04-15">15 Apr 2027</time><span class="what">Camera-ready papers and posters due<small>Invited talk titles and the full programme posted on this site. Accepted papers, abstracts, and posters follow before the workshop.</small></span></li>
+      <li data-date="2027-04-30"><time datetime="2027-04-29">29 or 30 Apr 2027</time><span class="what">Workshop at ICLR 2027<small>The day is assigned by ICLR</small></span></li>
     </ol>
-    <p class="note">All deadlines are Anywhere on Earth (AoE). The workshop day will be set by ICLR.</p>
+    <p class="note">All deadlines are 23:59 Anywhere on Earth (AoE).</p>
   </div>
 </section>
 
-<section id="schedule">
+<!-- ================= PROGRAMME ================= -->
+<section class="block alt" id="programme">
   <div class="wrap">
-    <h2>Tentative program</h2>
-    <p class="prose">Times are Pacific Daylight Time. Invited talks are 20 minutes and spotlights 10 minutes, each followed by 5 minutes of questions.</p>
-    <div class="sched">
+    <h2>Programme</h2>
+    <p class="intro">Six invited talks, a moderated panel, two poster sessions, and spotlight presentations that pair technical and HASS papers so each community responds directly to the other's work.</p>
+
+    <div class="format-grid">
       <div>
-        <h3>Morning</h3>
-        <table>
+        <h3>Spotlight pairs</h3>
+        <p>Each pair joins one technical paper with one HASS paper across two consecutive 20-minute sessions. One author presents for 10 minutes, the paired researcher responds with how their field reads the work, and open discussion follows. Then the roles reverse. Pairs are told at acceptance so partners can read each other's papers in advance.</p>
+        <table class="pair-table">
+          <thead><tr><th scope="col">Session</th><th scope="col">Presents</th><th scope="col">Responds</th></tr></thead>
           <tbody>
-            <tr><td>08:15</td><td>Opening remarks</td></tr>
-            <tr><td>08:30</td><td>Invited talk 1</td></tr>
-            <tr><td>08:55</td><td>Invited talk 2</td></tr>
-            <tr class="brk"><td>09:20</td><td>Coffee break</td></tr>
-            <tr><td>09:40</td><td>Spotlight talk 1</td></tr>
-            <tr><td>09:55</td><td>Spotlight talk 2</td></tr>
-            <tr><td>10:10</td><td>Poster session 1: Empirical</td></tr>
-            <tr class="rt"><td>11:10</td><td>Roundtable 1: Finding Goldilocks problems</td></tr>
-            <tr class="brk"><td>12:30</td><td>Lunch</td></tr>
+            <tr><td>1a</td><td><span class="tag tag-tech">Technical</span>author</td><td><span class="tag tag-hass">HASS</span>partner</td></tr>
+            <tr><td>1b</td><td><span class="tag tag-hass">HASS</span>author</td><td><span class="tag tag-tech">Technical</span>partner</td></tr>
           </tbody>
         </table>
       </div>
       <div>
-        <h3>Afternoon</h3>
-        <table>
-          <tbody>
-            <tr><td>13:30</td><td>Spotlight talk 3</td></tr>
-            <tr><td>13:45</td><td>Spotlight talk 4</td></tr>
-            <tr><td>14:00</td><td>Poster session 2: Optimization &amp; Theory</td></tr>
-            <tr class="rt"><td>15:15</td><td>Roundtable 2: Finding Goldilocks solutions</td></tr>
-            <tr class="brk"><td>16:30</td><td>Coffee break</td></tr>
-            <tr><td>16:50</td><td>Invited talk 3</td></tr>
-            <tr><td>17:15</td><td>Invited talk 4</td></tr>
-            <tr><td>17:40</td><td>Best paper prizes</td></tr>
-            <tr><td>17:50</td><td>Closing remarks</td></tr>
-          </tbody>
-        </table>
+        <h3>Find people from the other side</h3>
+        <p>Every participant gets a coloured lanyard showing their research perspective, and you can choose more than one. It's a simple way to spot a potential collaborator across the room during poster sessions and breaks. The same colours mark speakers and organizers on this page.</p>
+        <div class="lanyards">
+          <span class="lanyard" style="--c: var(--tech)">Technical AI</span>
+          <span class="lanyard" style="--c: var(--hass)">HASS</span>
+          <span class="lanyard" style="--c: var(--both)">Both</span>
+        </div>
       </div>
+    </div>
+
+    <h3>Tentative schedule</h3>
+    <p class="note" style="margin-top:0">Times in PDT. Invited talks are 15 minutes plus 5 minutes of Q&amp;A.</p>
+    <div class="table-scroll">
+      <table class="schedule">
+        <tbody>
+          <tr class="half"><th colspan="3" scope="colgroup">Morning</th></tr>
+          <tr><td>08:15</td><td>Opening remarks</td><td class="kind"></td></tr>
+          <tr><td>08:30</td><td>Invited talk 1</td><td class="kind">Talk</td></tr>
+          <tr><td>08:50</td><td>Invited talk 2</td><td class="kind">Talk</td></tr>
+          <tr class="social"><td>09:10</td><td>Poster session 1 and cross-disciplinary networking</td><td class="kind">Posters</td></tr>
+          <tr class="pair"><td>10:40</td><td>Spotlight pair 1a</td><td class="kind">Paired papers</td></tr>
+          <tr class="pair"><td>11:00</td><td>Spotlight pair 1b</td><td class="kind">Paired papers</td></tr>
+          <tr><td>11:20</td><td>Invited talk 3</td><td class="kind">Talk</td></tr>
+          <tr><td>11:40</td><td>Invited talk 4</td><td class="kind">Talk</td></tr>
+          <tr class="social"><td>12:00</td><td>Lunch</td><td class="kind"></td></tr>
+          <tr class="half"><th colspan="3" scope="colgroup">Afternoon</th></tr>
+          <tr class="pair"><td>13:20</td><td>Spotlight pair 2a</td><td class="kind">Paired papers</td></tr>
+          <tr class="pair"><td>13:40</td><td>Spotlight pair 2b</td><td class="kind">Paired papers</td></tr>
+          <tr><td>14:00</td><td>Invited talk 5</td><td class="kind">Talk</td></tr>
+          <tr><td>14:20</td><td>Invited talk 6</td><td class="kind">Talk</td></tr>
+          <tr><td>14:40</td><td>Panel discussion, moderated by Simon Chesterman</td><td class="kind">Panel</td></tr>
+          <tr class="social"><td>15:40</td><td>Poster session 2 and cross-disciplinary networking</td><td class="kind">Posters</td></tr>
+          <tr><td>17:10</td><td>Workshop synthesis</td><td class="kind"></td></tr>
+          <tr><td>17:20</td><td>Best paper awards</td><td class="kind"></td></tr>
+          <tr><td>17:30</td><td>Close</td><td class="kind"></td></tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </section>
 
-<section id="speakers" class="speakers">
+<!-- ================= SPEAKERS ================= -->
+<!-- To add a photo: put the image in an images/ folder and replace the initials,
+     e.g. <div class="avatar"><img src="images/russell.jpg" alt=""></div> -->
+<section class="block" id="speakers">
   <div class="wrap">
     <h2>Invited speakers</h2>
-    <!-- To use a photo, replace the initials inside .mono with <img src="img/name.jpg" alt=""> -->
+    <p class="intro">All six speakers have confirmed in-person attendance.</p>
+    <div class="legend" aria-label="Colour key">
+      <span style="--c: var(--tech)">Technical AI</span>
+      <span style="--c: var(--hass)">HASS</span>
+      <span style="--c: var(--both)">Both</span>
+    </div>
     <div class="people">
-      <div class="person"><div class="mono">MT</div><div>
-        <h3>Milind Tambe</h3>
-        <p>Harvard University and Google DeepMind</p>
-        <p class="why">Decision-focused learning and multi-agent systems: when better predictions stop improving decisions, and how to divide limited resources.</p>
-      </div></div>
-      <div class="person"><div class="mono">MV</div><div>
-        <h3>Manuela Veloso</h3>
-        <p>Carnegie Mellon University</p>
-        <p class="why">Autonomous and multi-agent systems: continual learning, planning and coordination.</p>
-      </div></div>
-      <div class="person"><div class="mono">MB</div><div>
-        <h3>Max Balandat</h3>
-        <p>Atomic Machines</p>
-        <p class="why">Bayesian optimization (BoTorch, Ax) and its synergy with language models.</p>
-      </div></div>
-      <div class="person"><div class="mono">AB</div><div>
-        <h3>Antoine Bosselut</h3>
-        <p>EPFL</p>
-        <p class="why">How representations evolve during LLM pretraining, and allocating pretraining resources across languages.</p>
-      </div></div>
+      <article class="person p-tech">
+        <div class="avatar" aria-hidden="true">SR</div>
+        <div>
+          <h3>Stuart Russell</h3>
+          <p class="role">Distinguished Professor of Computer Science, UC Berkeley; Director, Center for Human-Compatible AI; President, IASEAI</p>
+          <p>His work on human-compatible AI and assistance games questions the assumption that AI should optimize a fixed, correctly specified objective, asking whose preferences decide what counts as a desirable outcome.</p>
+        </div>
+      </article>
+      <article class="person p-hass">
+        <div class="avatar" aria-hidden="true">DS</div>
+        <div>
+          <h3>D. Daniel Sokol</h3>
+          <p class="role">Carolyn Craig Franklin Chair in Law, University of Southern California; Senior Advisor, White &amp; Case LLP</p>
+          <p>Works on antitrust, digital competition, AI regulation, and algorithmic markets, exposing the economic, legal, and institutional priorities inside choices that look purely computational.</p>
+        </div>
+      </article>
+      <article class="person p-tech">
+        <div class="avatar" aria-hidden="true">NC</div>
+        <div>
+          <h3>Nancy F. Chen</h3>
+          <p class="role">Senior Principal Scientist and Lead PI, A*STAR; Head, Multimodal Generative AI Group and AI for Education Programme</p>
+          <p>Works on multilingual and multimodal AI across culture and education, examining what choices about training, evaluation, and measures of improvement implicitly prioritize.</p>
+        </div>
+      </article>
+      <article class="person p-hass">
+        <div class="avatar" aria-hidden="true">SB</div>
+        <div>
+          <h3>Sofia Bapna</h3>
+          <p class="role">Associate Professor of Information Systems &amp; Analytics, Leavey School of Business, Santa Clara University</p>
+          <p>Studies AI in education, labour markets, gender gaps, and the causal effects of technology interventions, and whether those interventions deliver their intended human outcomes.</p>
+        </div>
+      </article>
+      <article class="person p-hass">
+        <div class="avatar" aria-hidden="true">EO</div>
+        <div>
+          <h3>Eric J. W. Orlowski</h3>
+          <p class="role">Research Fellow in AI Governance &amp; Policy, NUS Artificial Intelligence Institute</p>
+          <p>A sociocultural anthropologist working on cultural alignment and AI governance, asking what concepts like "culture" and "alignment" mean and why particular readings of them become technical problems.</p>
+        </div>
+      </article>
+      <article class="person p-both">
+        <div class="avatar" aria-hidden="true">LN</div>
+        <div>
+          <h3>Lynnette Hui Xian Ng</h3>
+          <p class="role">Deputy Head (Information Management), DSTA Research, Singapore; PhD in Societal Computing, Carnegie Mellon University</p>
+          <p>Combines network science, computational social science, and NLP to study social influence and online communities, including how social bots and automated persuasion shape public discourse.</p>
+        </div>
+      </article>
+    </div>
+    <div class="panel-note">
+      <p><strong>Panel discussion.</strong> Moderated by Simon Chesterman, the panel brings together speakers with contrasting training and methods to ask how their backgrounds shape what they see as the relevant motivations, technical choices, and desirable outcomes. Its open questions feed directly into the AI4Y? Research Agenda.</p>
     </div>
   </div>
 </section>
 
-<section id="organizers">
+<!-- ================= ORGANIZERS ================= -->
+<section class="block alt" id="organizers">
   <div class="wrap">
     <h2>Organizers</h2>
     <div class="people">
-      <div class="person"><div class="mono">BL</div><div><h3>Bryan Kian Hsiang Low</h3><p>National University of Singapore</p></div></div>
-      <div class="person"><div class="mono">TY</div><div><h3>Teresa Yeo</h3><p>Google DeepMind</p></div></div>
-      <div class="person"><div class="mono">ZD</div><div><h3>Zhongxiang Dai</h3><p>CUHK-Shenzhen</p></div></div>
-      <div class="person"><div class="mono">CL</div><div><h3>Chun Kai Ling</h3><p>National University of Singapore</p></div></div>
-      <div class="person"><div class="mono">DC</div><div><h3>Davin Choo</h3><p>Harvard SEAS</p></div></div>
-      <div class="person"><div class="mono">AV</div><div><h3>Arun Verma</h3><p>Singapore-MIT Alliance for Research and Technology</p></div></div>
-      <div class="person"><div class="mono">LN</div><div><h3>Lynnette Ng</h3><p>DSTA</p></div></div>
-      <div class="person"><div class="mono">ZK</div><div><h3>Zi-Yu Khoo</h3><p>National University of Singapore and AI Singapore</p></div></div>
+      <article class="person p-hass">
+        <div class="avatar" aria-hidden="true">SC</div>
+        <div>
+          <h3>Simon Chesterman</h3>
+          <p class="role">David Marshall Professor of Law and Vice Provost (Educational Innovation), National University of Singapore</p>
+          <p>Leads AI Governance and Policy at the NUS AI Institute. Research spans international law, AI governance, regulation, and the societal implications of emerging technologies.</p>
+        </div>
+      </article>
+      <article class="person p-hass">
+        <div class="avatar" aria-hidden="true">JH</div>
+        <div>
+          <h3>Jungpil Hahn</h3>
+          <p class="role">Provost's Chair Professor of Information Systems and Analytics, National University of Singapore</p>
+          <p>Research spans human-computer interaction, organizational learning, knowledge management, and technology innovation.</p>
+        </div>
+      </article>
+      <article class="person p-tech">
+        <div class="avatar" aria-hidden="true">BL</div>
+        <div>
+          <h3>Bryan Low Kian Hsiang</h3>
+          <p class="role">Associate Professor of Computer Science and Associate Vice President (AI), National University of Singapore</p>
+          <p>Works on machine learning, AI agents, and planning under uncertainty, and has organized workshops at top-tier conferences since 2021.</p>
+        </div>
+      </article>
+      <article class="person p-both">
+        <div class="avatar" aria-hidden="true">YG</div>
+        <div>
+          <h3>Yuting Gao</h3>
+          <p class="role">Assistant Professor of Information &amp; Operations Management, ESCP Business School, Madrid</p>
+          <p>Studies human-AI interaction, human-computer interaction, and the economic and social impacts of digital technologies.</p>
+        </div>
+      </article>
+      <article class="person p-both">
+        <div class="avatar" aria-hidden="true">KZ</div>
+        <div>
+          <h3>Khoo Zi-Yu</h3>
+          <p class="role">Research Fellow, Research Pillar, AI Singapore</p>
+          <p>Trained in economics and computer science, she researches how AI systems and assistance affect human agency and societal outcomes, and has organized community events alongside major conferences.</p>
+        </div>
+      </article>
+      <article class="person p-both">
+        <div class="avatar" aria-hidden="true">HN</div>
+        <div>
+          <h3>Hakim Norhashim</h3>
+          <p class="role">Research Associate, NUS Artificial Intelligence Institute</p>
+          <p>Works on human–AI value alignment and cultural alignment, combining technical measurement of alignment with attention to its social and cultural contexts.</p>
+        </div>
+      </article>
     </div>
 
-    <div class="sub">
-      <h3>Program committee</h3>
-      <ul class="pc">
-        <li>Rachael Hwee Ling Sim</li><li>Zhan Wei Lim</li><li>Ryan Wei Heng Quek</li><li>Quang Thanh Tran</li>
-        <li>Ruth Wan Theng Chew</li><li>Zhiliang Chen</li><li>Joseph Tze Tzun Teoh</li><li>Alfred Wei Lun Leong</li>
-        <li>Shao Yong Ong</li><li>Huynh Minh Nguyen</li><li>Jiabao Pan</li><li>Hoang Long Vu</li>
-        <li>Zixuan Wang</li><li>Jue Fan</li><li>Xiao Tian</li><li>Weida Li</li>
-        <li>Nhung Bui</li><li>Cong Duc Hoang</li><li>Hieu Dao</li><li>Kieu Thao Nguyen Pham</li>
-        <li>Zijian Zhou</li><li>Gregory Kang Ruey Lau</li><li>Zhuanghua Liu</li><li>Jingtan Wang</li>
-        <li>Apivich Hemachandra</li><li>Xinyuan Niu</li><li>Jiangwei Chen</li><li>Xinyang Lu</li>
-        <li>Wenyang Hu</li><li>Manh Cuong Dao</li><li>Rui Qiao</li>
+    <details style="margin-top:3rem">
+      <summary>Programme committee (50 members)</summary>
+      <ul class="pc-list">
+        <li>Yuting Gao <small>ESCP Business School</small></li>
+        <li>Jessica M. Clark <small>University of Maryland</small></li>
+        <li>Gwanhoo Lee <small>American University</small></li>
+        <li>Ying Lu <small>IE University</small></li>
+        <li>Lusi Yang <small>GSU</small></li>
+        <li>Gene Moo Lee <small>UBC</small></li>
+        <li>Zhiyi Wang <small>UC Boulder</small></li>
+        <li>Jiaxu Peng <small>CUFE</small></li>
+        <li>Jiali Zhou <small>American University</small></li>
+        <li>Sung Joo Kim <small>American University</small></li>
+        <li>Dawei Chen <small>Wenzhou Kean University</small></li>
+        <li>Chenxu Zheng <small>University of Sydney</small></li>
+        <li>Dongjun Wei <small>ESCP</small></li>
+        <li>Lin Qiu <small>SUSTech</small></li>
+        <li>Arun Verma <small>SMART</small></li>
+        <li>Zhongxiang Dai <small>CUHK</small></li>
+        <li>Hyeokkoo Eric Kwon <small>NTU</small></li>
+        <li>Rachael Hwee Ling Sim <small>NUS</small></li>
+        <li>Zhan Wei Lim <small>NUS</small></li>
+        <li>Ryan Wei Heng Quek <small>NUS IDS</small></li>
+        <li>Quang Thanh Tran <small>NUS</small></li>
+        <li>Ruth Wan Theng Chew <small>University of Washington</small></li>
+        <li>Georgios Matziou <small>ESCP Business School</small></li>
+        <li>Zhichao Hu <small>NTU</small></li>
+        <li>Joseph Tze Tzun Teoh</li>
+        <li>Alfred Wei Lun Leong</li>
+        <li>Shao Yong Ong</li>
+        <li>Huynh Minh Nguyen</li>
+        <li>Jiabao Pan</li>
+        <li>Hoang Long Vu</li>
+        <li>Zixuan Wang</li>
+        <li>Jue Fan</li>
+        <li>Xiao Tian</li>
+        <li>Weida Li</li>
+        <li>Nhung Bui</li>
+        <li>Cong Duc Hoang</li>
+        <li>Hieu Dao</li>
+        <li>Kieu Thao Nguyen Pham</li>
+        <li>Zijian Zhou</li>
+        <li>Gregory Kang Ruey Lau</li>
+        <li>Zhuanghua Liu</li>
+        <li>Jingtan Wang</li>
+        <li>Apivich Hemachandra</li>
+        <li>Xinyuan Niu</li>
+        <li>Zhiliang Chen</li>
+        <li>Jiangwei Chen</li>
+        <li>Xinyang Lu</li>
+        <li>Wenyang Hu</li>
+        <li>Manh Cuong Dao</li>
+        <li>Rui Qiao</li>
       </ul>
-    </div>
+    </details>
   </div>
 </section>
 
-<section id="contact">
-  <div class="wrap prose">
-    <h2>Contact</h2>
-    <!-- TODO: replace with your real address -->
-    <p>Questions about submissions, reviewing or attending? Email the organizers at <a href="mailto:goldilocks.workshop@example.com">goldilocks.workshop@example.com</a>.</p>
-    <p>Recordings of talks will be shared after the workshop with speakers’ consent. Remote presentation is possible in exceptional circumstances.</p>
+<!-- ================= PARTICIPATION ================= -->
+<section class="block" id="participate">
+  <div class="wrap">
+    <h2>Taking part</h2>
+    <div class="participate">
+      <div>
+        <h3>Travel support</h3>
+        <p>We are pursuing sponsors across academia and industry to fund student travel grants and registration waivers,
+      </div>
+      <div>
+        <h3>Remote access</h3>
+        <p>All programming is designed for in-person participation, and remote presentations are possible only in exceptional circumstances. Accepted papers, posters, slides, and short recorded summaries will be on OpenReview and this site, and talks and the panel will be recorded and shared afterwards with speakers' and authors' consent.</p>
+      </div>
+      <div>
+        <h3>The AI4Y? Research Agenda</h3>
+        <p>After the workshop we will publish a public research agenda drawing on accepted papers, the panel, and the spotlight pairs. It will trace motivations to formulations, implicit priorities, observed consequences, and open questions, and live on this site as a resource the community can return to.</p>
+      </div>
+    </div>
   </div>
 </section>
 
 </main>
 
-<footer>
-  <div class="wrap">
-    <p>Goldilocks’ Workshop on Finding “Just Right” in Agentic AI, ICLR 2027.</p>
-    <p><a href="https://iclr.cc">ICLR conference site</a></p>
-  </div>
-</footer>
+
 
 <script>
-(function(){
-  /* ---------- hero curve ---------- */
-  var svg = document.getElementById('curve');
-  var NS = 'http://www.w3.org/2000/svg';
-  var W = 600, H = 300, P = {l:40, r:20, t:30, b:40};
-  var k = 0.45, THRESH = 0.97;
-  function f(x){ var t = x / k; return t * Math.exp(1 - t); }
-  function sx(x){ return P.l + x * (W - P.l - P.r); }
-  function sy(y){ return H - P.b - y * (H - P.t - P.b) * 0.92; }
-  function el(name, attrs){ var e = document.createElementNS(NS, name); for (var a in attrs) e.setAttribute(a, attrs[a]); svg.appendChild(e); return e; }
-
-  var lo = null, hi = null, pts = [], gold = [];
-  for (var i = 0; i <= 200; i++){
-    var x = i / 200, y = f(x);
-    pts.push(sx(x).toFixed(1) + ',' + sy(y).toFixed(1));
-    if (y >= THRESH){ if (lo === null) lo = x; hi = x; gold.push(sx(x).toFixed(1) + ',' + sy(y).toFixed(1)); }
+(function () {
+  // Hero: AI4X domains give way to AI4Y?. Runs once on load; skipped for reduced motion.
+  var slot = document.getElementById('slot');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (slot && !reduce) {
+    var words = ['X', 'Science', 'Health', 'Climate', 'Math', 'Y?'];
+    var i = 0;
+    var show = function (w) {
+      slot.textContent = w;
+      slot.className = 'slot ' + (w === 'Y?' ? 'is-why' : (w === 'X' ? '' : 'is-domain'));
+      void slot.offsetWidth;
+      slot.classList.add('flip');
+    };
+    show(words[0]);
+    var timer = setInterval(function () {
+      i += 1;
+      show(words[i]);
+      if (i === words.length - 1) clearInterval(timer);
+    }, i === 0 ? 700 : 620);
   }
-  el('rect', {class:'zone', x:sx(lo), y:P.t - 10, width:sx(hi) - sx(lo), height:H - P.b - P.t + 10});
-  var zl = el('text', {class:'zone-label', x:(sx(lo) + sx(hi)) / 2, y:P.t + 2, 'text-anchor':'middle'}); zl.textContent = 'just right';
-  el('line', {class:'axis', x1:P.l, y1:H - P.b, x2:W - P.r, y2:H - P.b});
-  el('line', {class:'axis', x1:P.l, y1:P.t - 10, x2:P.l, y2:H - P.b});
-  var xl = el('text', {class:'axis-label', x:W - P.r, y:H - 14, 'text-anchor':'end'}); xl.textContent = 'investment';
-  var yl = el('text', {class:'axis-label', x:P.l + 8, y:P.t - 14}); yl.textContent = 'performance';
-  el('polyline', {class:'line', points:pts.join(' ')});
-  el('polyline', {class:'line-gold', points:gold.join(' ')});
-  var drop = el('line', {class:'drop', x1:0, y1:0, x2:0, y2:H - P.b});
-  var dot = el('circle', {class:'dot', r:9, cx:0, cy:0});
 
-  var slider = document.getElementById('invest');
-  var out = document.getElementById('readout');
-  var lastState = '';
-  var msgs = {
-    cold:['Too cold.', 'Performance is still climbing, so more investment pays off.'],
-    right:['Just right.', 'Near-peak performance for the resources spent.'],
-    hot:['Too hot.', 'Extra investment has stopped helping and starts to hurt.']
-  };
-  function update(){
-    var x = slider.value / 100, cx = sx(x), cy = sy(f(x));
-    dot.setAttribute('cx', cx); dot.setAttribute('cy', cy);
-    drop.setAttribute('x1', cx); drop.setAttribute('x2', cx); drop.setAttribute('y1', cy);
-    var state = x < lo ? 'cold' : (x > hi ? 'hot' : 'right');
-    dot.style.fill = state === 'right' ? 'var(--honey)' : '#EEF0E4';
-    if (state !== lastState){
-      out.dataset.state = state;
-      out.innerHTML = '<strong>' + msgs[state][0] + '</strong>' + msgs[state][1];
-      lastState = state;
-    }
-  }
-  slider.addEventListener('input', function(){ stopped = true; update(); });
-  update();
+  // Key dates: strike through past dates and mark the next one.
+  var items = document.querySelectorAll('#timeline li');
+  var today = new Date();
+  var foundNext = false;
+  items.forEach(function (li) {
+    var end = new Date(li.getAttribute('data-date') + 'T23:59:00-12:00');
+    if (end < today) { li.classList.add('past'); }
+    else if (!foundNext) { li.classList.add('next'); foundNext = true; }
+  });
 
-  /* one load-time moment: glide the dot into the zone */
-  var stopped = false;
-  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!reduce){
-    var start = null, from = 8, to = Math.round(((lo + hi) / 2) * 100), dur = 1800;
-    setTimeout(function(){
-      requestAnimationFrame(function step(ts){
-        if (stopped) return;
-        if (!start) start = ts;
-        var p = Math.min(1, (ts - start) / dur), e = 1 - Math.pow(1 - p, 3);
-        slider.value = Math.round(from + (to - from) * e);
-        update();
-        if (p < 1) requestAnimationFrame(step);
+  // Navigation: highlight the section in view.
+  var links = document.querySelectorAll('.nav a');
+  var map = {};
+  links.forEach(function (a) { map[a.getAttribute('href').slice(1)] = a; });
+  if ('IntersectionObserver' in window) {
+    var obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting && map[e.target.id]) {
+          links.forEach(function (a) { a.removeAttribute('aria-current'); });
+          map[e.target.id].setAttribute('aria-current', 'true');
+        }
       });
-    }, 600);
-  } else {
-    slider.value = Math.round(((lo + hi) / 2) * 100); update();
-  }
-
-  /* ---------- highlight the next date ---------- */
-  var today = new Date(); today.setHours(0,0,0,0);
-  var items = document.querySelectorAll('.timeline li');
-  for (var j = 0; j < items.length; j++){
-    var d = new Date(items[j].getAttribute('data-date') + 'T23:59:59');
-    if (d >= today){
-      items[j].classList.add('next');
-      var b = document.createElement('span'); b.className = 'badge'; b.textContent = 'Next';
-      items[j].querySelector('time').appendChild(b);
-      break;
-    }
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    Object.keys(map).forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) obs.observe(el);
+    });
   }
 })();
 </script>

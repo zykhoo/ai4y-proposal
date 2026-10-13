@@ -230,12 +230,15 @@ thead th { font-weight: 600; border-bottom: 1.5px solid var(--ink); }
 .people { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 330px), 1fr)); gap: 2.25rem 2.5rem; }
 .person { display: grid; grid-template-columns: 5.5rem 1fr; gap: 1.1rem; align-items: start; }
 .avatar {
+  position: relative;
   width: 5.5rem; height: 5.5rem; border-radius: 50%; display: grid; place-items: center;
   font-family: var(--serif); font-weight: 600; font-size: 1.6rem; color: var(--c);
   background: var(--t); box-shadow: 0 0 0 3px var(--paper), 0 0 0 6px var(--c); overflow: hidden;
 }
 .alt .avatar { box-shadow: 0 0 0 3px var(--surface), 0 0 0 6px var(--c); }
-.avatar img { width: 100%; height: 100%; object-fit: cover; }
+/* The photo sits on top of the initials. If it fails to load, onerror removes it
+   and the initials show through, so a missing file never leaves a broken image. */
+.avatar img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 22%; }
 .person h3 { font-size: 1.2rem; margin-bottom: .15rem; }
 .person .role { color: var(--ink-soft); font-size: .93rem; line-height: 1.45; margin: 0 0 .55rem; }
 .person p { margin: 0; font-size: .97rem; }
@@ -252,6 +255,18 @@ thead th { font-weight: 600; border-bottom: 1.5px solid var(--ink); }
 /* Participation */
 .participate { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2.5rem; }
 .participate p { margin: 0; }
+
+/* Sponsors */
+.sponsors { display: flex; flex-wrap: wrap; gap: 1.5rem; }
+.sponsor {
+  display: grid; gap: .9rem; width: min(100%, 28rem); padding: 1.75rem 2rem;
+  background: var(--paper); border-radius: 10px; text-decoration: none; color: var(--ink);
+}
+.sponsor:hover { color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--ink); }
+.sponsor-logo { height: 4rem; display: flex; align-items: center; }
+.sponsor-logo img { height: auto; max-height: 100%; width: 100%; object-fit: contain; object-position: left center; }
+.sponsor-fallback { font-family: var(--serif); font-weight: 700; font-size: 2.2rem; letter-spacing: -0.02em; }
+.sponsor-name { font-size: .95rem; color: var(--ink-soft); line-height: 1.45; }
 
 /* Footer */
 footer { padding: 3.5rem 0 4rem; }
@@ -296,6 +311,7 @@ footer { padding: 3.5rem 0 4rem; }
       <a href="#programme">Programme</a>
       <a href="#speakers">Speakers</a>
       <a href="#organizers">Organizers</a>
+      <a href="#sponsors">Sponsors</a>
       <a href="#contact">Contact</a>
     </nav>
   </div>
@@ -595,8 +611,9 @@ footer { padding: 3.5rem 0 4rem; }
 </section>
 
 <!-- ================= SPEAKERS ================= -->
-<!-- To add a photo: put the image in an images/ folder and replace the initials,
-     e.g. <div class="avatar"><img src="images/russell.jpg" alt=""></div> -->
+<!-- Photos live in images/ next to this file. Each avatar keeps its initials
+     underneath the <img>; if a photo is missing, onerror removes it and the
+     initials show instead. -->
 <section class="block" id="speakers">
   <div class="wrap">
     <h2>Invited speakers</h2>
@@ -608,7 +625,7 @@ footer { padding: 3.5rem 0 4rem; }
     </div>
     <div class="people">
       <article class="person p-tech">
-        <div class="avatar" aria-hidden="true">SR</div>
+        <div class="avatar" aria-hidden="true">SR<img src="images/russell.jpeg" alt="" loading="lazy" onerror="this.remove()"></div>
         <div>
           <h3>Stuart Russell</h3>
           <p class="role">Distinguished Professor of Computer Science, UC Berkeley; Director, Center for Human-Compatible AI; President, IASEAI</p>
@@ -616,7 +633,7 @@ footer { padding: 3.5rem 0 4rem; }
         </div>
       </article>
       <article class="person p-hass">
-        <div class="avatar" aria-hidden="true">DS</div>
+        <div class="avatar" aria-hidden="true">DS<img src="images/sokol.jpg" alt="" loading="lazy" onerror="this.remove()"></div>
         <div>
           <h3>D. Daniel Sokol</h3>
           <p class="role">Carolyn Craig Franklin Chair in Law, University of Southern California; Senior Advisor, White &amp; Case LLP</p>
@@ -624,7 +641,7 @@ footer { padding: 3.5rem 0 4rem; }
         </div>
       </article>
       <article class="person p-tech">
-        <div class="avatar" aria-hidden="true">NC</div>
+        <div class="avatar" aria-hidden="true">NC<img src="images/chen.jpeg" alt="" loading="lazy" onerror="this.remove()"></div>
         <div>
           <h3>Nancy F. Chen</h3>
           <p class="role">Senior Principal Scientist and Lead PI, A*STAR; Head, Multimodal Generative AI Group and AI for Education Programme</p>
@@ -632,7 +649,7 @@ footer { padding: 3.5rem 0 4rem; }
         </div>
       </article>
       <article class="person p-hass">
-        <div class="avatar" aria-hidden="true">SB</div>
+        <div class="avatar" aria-hidden="true">SB<img src="images/bapna.jpg" alt="" loading="lazy" onerror="this.remove()"></div>
         <div>
           <h3>Sofia Bapna</h3>
           <p class="role">Associate Professor of Information Systems &amp; Analytics, Leavey School of Business, Santa Clara University</p>
@@ -640,7 +657,7 @@ footer { padding: 3.5rem 0 4rem; }
         </div>
       </article>
       <article class="person p-hass">
-        <div class="avatar" aria-hidden="true">EO</div>
+        <div class="avatar" aria-hidden="true">EO<img src="images/orlowski.jpeg" alt="" loading="lazy" onerror="this.remove()"></div>
         <div>
           <h3>Eric J. W. Orlowski</h3>
           <p class="role">Research Fellow in AI Governance &amp; Policy, NUS Artificial Intelligence Institute</p>
@@ -648,7 +665,7 @@ footer { padding: 3.5rem 0 4rem; }
         </div>
       </article>
       <article class="person p-both">
-        <div class="avatar" aria-hidden="true">LN</div>
+        <div class="avatar" aria-hidden="true">LN<img src="images/ng.jpg" alt="" loading="lazy" onerror="this.remove()"></div>
         <div>
           <h3>Lynnette Hui Xian Ng</h3>
           <p class="role">Deputy Head (Information Management), DSTA Research, Singapore; PhD in Societal Computing, Carnegie Mellon University</p>
@@ -668,7 +685,7 @@ footer { padding: 3.5rem 0 4rem; }
     <h2>Organizers</h2>
     <div class="people">
       <article class="person p-hass">
-        <div class="avatar" aria-hidden="true">SC</div>
+        <div class="avatar" aria-hidden="true">SC<img src="images/chesterman.jpeg" alt="" loading="lazy" onerror="this.remove()"></div>
         <div>
           <h3>Simon Chesterman</h3>
           <p class="role">David Marshall Professor of Law and Vice Provost (Educational Innovation), National University of Singapore</p>
@@ -676,7 +693,7 @@ footer { padding: 3.5rem 0 4rem; }
         </div>
       </article>
       <article class="person p-hass">
-        <div class="avatar" aria-hidden="true">JH</div>
+        <div class="avatar" aria-hidden="true">JH<img src="images/hahn.jpg" alt="" loading="lazy" onerror="this.remove()"></div>
         <div>
           <h3>Jungpil Hahn</h3>
           <p class="role">Provost's Chair Professor of Information Systems and Analytics, National University of Singapore</p>
@@ -684,7 +701,7 @@ footer { padding: 3.5rem 0 4rem; }
         </div>
       </article>
       <article class="person p-tech">
-        <div class="avatar" aria-hidden="true">BL</div>
+        <div class="avatar" aria-hidden="true">BL<img src="images/low.jpg" alt="" loading="lazy" onerror="this.remove()"></div>
         <div>
           <h3>Bryan Low Kian Hsiang</h3>
           <p class="role">Associate Professor of Computer Science and Associate Vice President (AI), National University of Singapore</p>
@@ -692,7 +709,7 @@ footer { padding: 3.5rem 0 4rem; }
         </div>
       </article>
       <article class="person p-both">
-        <div class="avatar" aria-hidden="true">YG</div>
+        <div class="avatar" aria-hidden="true">YG<img src="images/gao.jpg" alt="" loading="lazy" onerror="this.remove()"></div>
         <div>
           <h3>Yuting Gao</h3>
           <p class="role">Assistant Professor of Information &amp; Operations Management, ESCP Business School, Madrid</p>
@@ -700,7 +717,7 @@ footer { padding: 3.5rem 0 4rem; }
         </div>
       </article>
       <article class="person p-both">
-        <div class="avatar" aria-hidden="true">KZ</div>
+        <div class="avatar" aria-hidden="true">KZ<img src="images/khoo.jpeg" alt="" loading="lazy" onerror="this.remove()"></div>
         <div>
           <h3>Khoo Zi-Yu</h3>
           <p class="role">Research Fellow, Research Pillar, AI Singapore</p>
@@ -708,7 +725,7 @@ footer { padding: 3.5rem 0 4rem; }
         </div>
       </article>
       <article class="person p-both">
-        <div class="avatar" aria-hidden="true">HN</div>
+        <div class="avatar" aria-hidden="true">HN<img src="images/norhashim.jpeg" alt="" loading="lazy" onerror="this.remove()"></div>
         <div>
           <h3>Hakim Norhashim</h3>
           <p class="role">Research Associate, NUS Artificial Intelligence Institute</p>
@@ -782,7 +799,7 @@ footer { padding: 3.5rem 0 4rem; }
     <div class="participate">
       <div>
         <h3>Travel support</h3>
-        <p>We are pursuing sponsors across academia and industry to fund student travel grants and registration waivers,
+        <p>We are pursuing sponsors across academia and industry to fund student travel grants and registration waivers.</p>
       </div>
       <div>
         <h3>Remote access</h3>
@@ -792,6 +809,24 @@ footer { padding: 3.5rem 0 4rem; }
         <h3>The AI4Y? Research Agenda</h3>
         <p>After the workshop we will publish a public research agenda drawing on accepted papers, the panel, and the spotlight pairs. It will trace motivations to formulations, implicit priorities, observed consequences, and open questions, and live on this site as a resource the community can return to.</p>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SPONSORS ================= -->
+<!-- The logo already spells out the full name, so no separate caption is shown.
+     If images/iaseai.png is missing, the short name appears as text instead. -->
+<section class="block alt" id="sponsors">
+  <div class="wrap">
+    <h2>Sponsors</h2>
+    <p class="intro">AI4Y? is made possible with support from the following organizations.</p>
+    <div class="sponsors">
+      <a class="sponsor" href="https://www.iaseai.org" target="_blank" rel="noopener">
+        <span class="sponsor-logo">
+          <img src="images/iaseai.png" alt="International Association for Safe and Ethical AI" loading="lazy" onerror="this.nextElementSibling.hidden = false; this.remove()">
+          <span class="sponsor-fallback" hidden>IASEAI</span>
+        </span>
+      </a>
     </div>
   </div>
 </section>

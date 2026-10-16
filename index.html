@@ -61,6 +61,29 @@ h2 { font-size: clamp(1.9rem, 3.4vw, 2.6rem); margin-bottom: 1.25rem; letter-spa
 h3 { font-size: 1.4rem; margin-bottom: .6rem; }
 h4 { font-size: 1.1rem; margin-bottom: .4rem; }
 
+/* ---------- Icons ----------
+   One hand-drawn line set on a 24px grid: 1.75 stroke, round caps,
+   no fills, so every icon reads as part of the same family.
+   Colour comes from currentColor, which ties each icon to the
+   cobalt / plum / violet community system. */
+.icon-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+.icon {
+  width: 1.25em; height: 1.25em; flex: none;
+  fill: none; stroke: currentColor; stroke-width: 1.75;
+  stroke-linecap: round; stroke-linejoin: round;
+  vertical-align: -0.22em;
+}
+/* Icon tile: used where an icon leads a block (directions, participation, panel). */
+.tile {
+  display: inline-grid; place-items: center; flex: none;
+  width: 3rem; height: 3rem; border-radius: 12px;
+  background: var(--both-tint); color: var(--both);
+}
+.tile .icon { width: 1.5rem; height: 1.5rem; }
+/* Heading with a leading icon. */
+.with-icon { display: flex; align-items: center; gap: .6rem; }
+.with-icon .icon { color: var(--both); width: 1.3rem; height: 1.3rem; }
+
 /* ---------- Navigation ---------- */
 .topbar {
   position: sticky; top: 0; z-index: 50;
@@ -122,8 +145,9 @@ section.block.alt { background: var(--surface); }
 /* About */
 .about-grid { display: grid; grid-template-columns: minmax(0, 1fr) 19rem; gap: 3.5rem; align-items: start; }
 .whys { list-style: none; margin: 0; padding: 1.5rem 1.6rem; background: var(--surface); border-left: 4px solid var(--hass); border-radius: 0 10px 10px 0; }
-.whys li { font-family: var(--serif); font-size: 1.3rem; line-height: 1.35; padding: .55rem 0; }
+.whys li { display: grid; grid-template-columns: 1.75rem minmax(0, 1fr); gap: .8rem; align-items: start; font-family: var(--serif); font-size: 1.3rem; line-height: 1.35; padding: .7rem 0; }
 .whys li + li { border-top: 1px solid var(--rule); }
+.whys .icon { width: 1.6rem; height: 1.6rem; color: var(--hass); margin-top: .1rem; }
 .whys small { display: block; font-family: var(--sans); font-size: .9rem; color: var(--ink-soft); margin-top: .2rem; }
 
 /* Research process flow */
@@ -133,6 +157,10 @@ section.block.alt { background: var(--surface); }
   background: var(--surface); border: 1.5px solid var(--ink); border-radius: 10px;
   padding: .85rem 1rem; text-align: center; font-family: var(--serif); font-weight: 600; font-size: 1.05rem; line-height: 1.25;
 }
+.flow-node .icon { display: block; width: 1.6rem; height: 1.6rem; margin: 0 auto .5rem; color: var(--c); }
+.n-hass { --c: var(--hass); }
+.n-tech { --c: var(--tech); }
+.n-both { --c: var(--both); }
 .flow-node small { display: block; font-family: var(--sans); font-weight: 400; font-size: .82rem; color: var(--ink-soft); margin-top: .25rem; }
 .flow-arrow { color: var(--ink-soft); font-size: 1.4rem; text-align: center; }
 .flow-dirs { display: grid; grid-template-columns: repeat(3, 1fr); gap: .75rem; margin-top: 1rem; }
@@ -149,6 +177,7 @@ section.block.alt { background: var(--surface); }
 /* Directions */
 .directions { display: grid; gap: 2.5rem; }
 .direction { display: grid; grid-template-columns: 15rem minmax(0, 1fr); gap: 2rem; }
+.direction-head .tile { margin-bottom: .9rem; }
 .direction-head h3 { font-size: 1.5rem; }
 .direction-body p { margin: 0 0 .9rem; max-width: var(--measure); }
 .questions { font-family: var(--serif); font-style: italic; color: var(--ink-soft); }
@@ -186,7 +215,8 @@ details[open] > summary::before { content: "\2212"; }
 .example.tech { border-left: 4px solid var(--tech); }
 .example.hass { border-left: 4px solid var(--hass); }
 .example blockquote { margin: .6rem 0 0; font-family: var(--serif); font-size: 1rem; line-height: 1.55; }
-.not-this { max-width: var(--measure); padding: 1rem 1.25rem; border: 1.5px dashed var(--rule); border-radius: 10px; color: var(--ink-soft); }
+.not-this { display: flex; gap: .7rem; align-items: flex-start; max-width: var(--measure); padding: 1rem 1.25rem; border: 1.5px dashed var(--rule); border-radius: 10px; color: var(--ink-soft); }
+.not-this .icon { color: var(--hass); margin-top: .2rem; }
 
 .table-scroll { overflow-x: auto; margin-top: 1rem; }
 table { border-collapse: collapse; width: 100%; font-size: .95rem; }
@@ -199,13 +229,16 @@ thead th { font-weight: 600; border-bottom: 1.5px solid var(--ink); }
 .timeline { list-style: none; margin: 0; padding: 0; max-width: 46rem; counter-reset: step; }
 .timeline li { display: grid; grid-template-columns: 11rem 1fr; gap: 1.5rem; padding: 1.1rem 0; border-bottom: 1px solid var(--rule); position: relative; }
 .timeline time { font-family: var(--serif); font-weight: 600; font-size: 1.1rem; }
-.timeline .what { font-weight: 500; }
+.timeline .what { display: grid; grid-template-columns: 1.4rem minmax(0, 1fr); gap: .75rem; align-items: start; font-weight: 500; }
+.timeline .what .icon { width: 1.35rem; height: 1.35rem; margin-top: .12rem; color: var(--both); }
 .timeline .what small { display: block; color: var(--ink-soft); font-weight: 400; font-size: .92rem; }
 .timeline li.past { color: var(--ink-soft); }
+.timeline li.past .what .icon { color: var(--rule); }
 .timeline li.past time { text-decoration: line-through; text-decoration-thickness: 1px; }
 .timeline li.next { background: var(--surface); margin: 0 -1rem; padding-left: 1rem; padding-right: 1rem; border-radius: 10px; border-bottom-color: transparent; box-shadow: inset 4px 0 0 var(--both); }
-.timeline li.next .what::after { content: "Up next"; display: inline-block; margin-left: .6rem; font-size: .78rem; font-weight: 600; color: var(--both); background: var(--both-tint); padding: .08rem .5rem; border-radius: 4px; vertical-align: .1em; }
+.timeline li.next .what > span::after { content: "Up next"; display: inline-block; margin-left: .6rem; font-size: .78rem; font-weight: 600; color: var(--both); background: var(--both-tint); padding: .08rem .5rem; border-radius: 4px; vertical-align: .1em; }
 .note { color: var(--ink-soft); font-size: .95rem; margin-top: 1.25rem; }
+.note .icon { margin-right: .35rem; }
 
 /* Programme */
 .format-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2.5rem; margin-bottom: 3rem; }
@@ -220,6 +253,8 @@ thead th { font-weight: 600; border-bottom: 1.5px solid var(--ink); }
 .schedule td:first-child { font-family: var(--serif); font-weight: 600; white-space: nowrap; width: 5.5rem; }
 .schedule tr.half th { font-family: var(--serif); font-size: 1.1rem; padding-top: 1.6rem; border-bottom: 1.5px solid var(--ink); }
 .schedule .kind { color: var(--ink-soft); font-size: .88rem; white-space: nowrap; }
+.schedule .kind .icon { width: 1.1rem; height: 1.1rem; margin-right: .4rem; vertical-align: -0.25em; }
+.schedule tr.pair .kind .icon { color: var(--both); }
 .schedule tr.pair td { background: var(--both-tint); }
 .schedule tr.social td { background: #EEF1F5; }
 
@@ -245,7 +280,7 @@ thead th { font-weight: 600; border-bottom: 1.5px solid var(--ink); }
 .p-tech { --c: var(--tech); --t: var(--tech-tint); }
 .p-hass { --c: var(--hass); --t: var(--hass-tint); }
 .p-both { --c: var(--both); --t: var(--both-tint); }
-.panel-note { margin-top: 3rem; max-width: var(--measure); padding: 1.25rem 1.5rem; background: var(--surface); border-radius: 10px; }
+.panel-note { display: flex; gap: 1.1rem; align-items: flex-start; margin-top: 3rem; max-width: var(--measure); padding: 1.25rem 1.5rem; background: var(--surface); border-radius: 10px; }
 .alt .panel-note { background: var(--paper); }
 .panel-note p { margin: 0; }
 .pc-list { columns: 3; column-gap: 2rem; list-style: none; padding: 0; margin: 1rem 0 0; font-size: .95rem; }
@@ -254,6 +289,7 @@ thead th { font-weight: 600; border-bottom: 1.5px solid var(--ink); }
 
 /* Participation */
 .participate { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2.5rem; }
+.participate .tile { margin-bottom: .9rem; }
 .participate p { margin: 0; }
 
 /* Sponsors */
@@ -279,6 +315,8 @@ footer { padding: 3.5rem 0 4rem; }
 @media (max-width: 900px) {
   .about-grid, .format-grid, .participate, .foot { grid-template-columns: 1fr; gap: 2rem; }
   .direction { grid-template-columns: 1fr; gap: .5rem; }
+  .direction-head { display: flex; align-items: center; gap: .9rem; }
+  .direction-head .tile { margin-bottom: 0; }
   .submit-grid, .examples { grid-template-columns: 1fr; }
   .pc-list { columns: 2; }
 }
@@ -299,6 +337,47 @@ footer { padding: 3.5rem 0 4rem; }
 </style>
 </head>
 <body>
+
+<!-- ================= ICON SPRITE =================
+     Each icon is defined once here and reused with <use href="#i-name"/>.
+     To add an icon, add a <symbol> on the same 24×24 grid with strokes only. -->
+<svg class="icon-sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+  <!-- The three AI4Y? questions -->
+  <symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/></symbol>
+  <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></symbol>
+  <symbol id="i-scale" viewBox="0 0 24 24"><path d="M12 3v17M8 20h8M5 6.5h14M5 6.5 2.5 13M5 6.5 7.5 13M19 6.5 16.5 13M19 6.5 21.5 13"/><path d="M2.5 13a2.5 2.5 0 0 0 5 0zM16.5 13a2.5 2.5 0 0 0 5 0z"/></symbol>
+  <!-- Research process -->
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-7.5-4.4-7.5-10A4.2 4.2 0 0 1 12 7.4 4.2 4.2 0 0 1 19.5 10c0 5.6-7.5 10-7.5 10z"/></symbol>
+  <symbol id="i-code" viewBox="0 0 24 24"><path d="m8 6-6 6 6 6M16 6l6 6-6 6M14 4l-4 16"/></symbol>
+  <symbol id="i-pulse" viewBox="0 0 24 24"><path d="M3 12h4l3-7 4 14 3-7h4"/></symbol>
+  <!-- Submission -->
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></symbol>
+  <symbol id="i-tag" viewBox="0 0 24 24"><path d="M3 4v7.2a2 2 0 0 0 .6 1.4l8 8a2 2 0 0 0 2.8 0l6.2-6.2a2 2 0 0 0 0-2.8l-8-8A2 2 0 0 0 11.2 3H4a1 1 0 0 0-1 1z"/><circle cx="7.5" cy="7.5" r="1.5"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></symbol>
+  <symbol id="i-pen" viewBox="0 0 24 24"><path d="M12 20h8M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></symbol>
+  <symbol id="i-clipboard" viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2M9 14l2 2 4-4"/></symbol>
+  <symbol id="i-x-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m15 9-6 6M9 9l6 6"/></symbol>
+  <!-- Dates -->
+  <symbol id="i-megaphone" viewBox="0 0 24 24"><path d="M3 11v3a1 1 0 0 0 1 1h2l5 4V6l-5 4H4a1 1 0 0 0-1 1z"/><path d="M15 9.5a3.5 3.5 0 0 1 0 5M18 7a7 7 0 0 1 0 10"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 15V3M7 8l5-5 5 5M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></symbol>
+  <symbol id="i-file-check" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 15l2 2 4-4"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/><rect x="10" y="13.5" width="4" height="4" rx=".75"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <!-- Programme -->
+  <symbol id="i-exchange" viewBox="0 0 24 24"><path d="M7 4 3 8l4 4M3 8h14M17 12l4 4-4 4M21 16H7"/></symbol>
+  <symbol id="i-lanyard" viewBox="0 0 24 24"><path d="m8 2 4 6 4-6"/><rect x="6" y="8" width="12" height="13" rx="2"/><circle cx="12" cy="13" r="2"/><path d="M9 18h6"/></symbol>
+  <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10v1a7 7 0 0 0 14 0v-1M12 18v4M8 22h8"/></symbol>
+  <symbol id="i-poster" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="12" rx="1.5"/><path d="M12 15v3M8 21l4-3 4 3M7 7.5h6M7 10.5h10"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.6a3.5 3.5 0 0 1 0 6.8M21.5 20a6.5 6.5 0 0 0-3.5-5.8"/></symbol>
+  <!-- Taking part -->
+  <symbol id="i-suitcase" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 13h18"/></symbol>
+  <symbol id="i-screen" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M12 17v4M8 21h8M10 8.5v5l4.5-2.5z"/></symbol>
+  <symbol id="i-map" viewBox="0 0 24 24"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2zM9 4v14M15 6v14"/></symbol>
+</svg>
+
 <a class="skip" href="#main">Skip to content</a>
 
 <header class="topbar">
@@ -350,9 +429,9 @@ footer { padding: 3.5rem 0 4rem; }
       <p>AI4Y? brings these communities into one conversation. Technical AI can formalize values and turn them into interventions; HASS can surface the motivations, priorities, and consequences those formalizations carry. The workshop complements existing work on AI ethics, safety, alignment, and responsible AI by focusing on the stage where research problems are first defined.</p>
     </div>
     <ul class="whys" aria-label="The three questions AI4Y? asks">
-      <li>Why this motivation?<small>How a desired outcome becomes a technical problem</small></li>
-      <li>Why this technical choice?<small>Which values an objective, dataset, or metric encodes</small></li>
-      <li>Why this outcome?<small>Which goals win when they conflict, and who decides</small></li>
+      <li><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg><span>Why this motivation?<small>How a desired outcome becomes a technical problem</small></span></li>
+      <li><svg class="icon" aria-hidden="true"><use href="#i-sliders"/></svg><span>Why this technical choice?<small>Which values an objective, dataset, or metric encodes</small></span></li>
+      <li><svg class="icon" aria-hidden="true"><use href="#i-scale"/></svg><span>Why this outcome?<small>Which goals win when they conflict, and who decides</small></span></li>
     </ul>
   </div>
 </section>
@@ -365,13 +444,13 @@ footer { padding: 3.5rem 0 4rem; }
 
     <div class="flow" role="figure" aria-label="The research process AI4Y? examines, from motivations to trade-offs, read forward and backward">
       <div class="flow-steps">
-        <div class="flow-node">Motivations and values<small>autonomy, fairness, flourishing</small></div>
+        <div class="flow-node n-hass"><svg class="icon" aria-hidden="true"><use href="#i-heart"/></svg>Motivations and values<small>autonomy, fairness, flourishing</small></div>
         <div class="flow-arrow" aria-hidden="true">&#10230;</div>
-        <div class="flow-node">Technical problem<small>objectives, data, evaluations</small></div>
+        <div class="flow-node n-tech"><svg class="icon" aria-hidden="true"><use href="#i-code"/></svg>Technical problem<small>objectives, data, evaluations</small></div>
         <div class="flow-arrow" aria-hidden="true">&#10230;</div>
-        <div class="flow-node">Consequences<small>behaviours and outcomes</small></div>
+        <div class="flow-node n-both"><svg class="icon" aria-hidden="true"><use href="#i-pulse"/></svg>Consequences<small>behaviours and outcomes</small></div>
         <div class="flow-arrow" aria-hidden="true">&#10230;</div>
-        <div class="flow-node">Trade-offs<small>goals that conflict</small></div>
+        <div class="flow-node n-both"><svg class="icon" aria-hidden="true"><use href="#i-scale"/></svg>Trade-offs<small>goals that conflict</small></div>
       </div>
       <div class="flow-dirs">
         <a href="#dir-motivation">From motivation to technical problem</a>
@@ -386,7 +465,7 @@ footer { padding: 3.5rem 0 4rem; }
 
     <div class="directions">
       <article class="direction" id="dir-motivation">
-        <div class="direction-head"><h3>From motivation to technical problem</h3></div>
+        <div class="direction-head"><span class="tile" aria-hidden="true"><svg class="icon"><use href="#i-compass"/></svg></span><h3>From motivation to technical problem</h3></div>
         <div class="direction-body">
           <p>Concepts such as autonomy, distributive justice, meaningful work, pluralism, or human flourishing don't arrive as ready-made machine learning objectives. Someone has to decide how they are represented through objectives, constraints, preference distributions, datasets, benchmarks, or algorithms.</p>
           <p class="questions">What is lost when a socially desired outcome is formalized? Whose preferences are represented? How should contested or plural values be encoded when there is no single agreed target?</p>
@@ -409,7 +488,7 @@ footer { padding: 3.5rem 0 4rem; }
       </article>
 
       <article class="direction" id="dir-consequences">
-        <div class="direction-head"><h3>From technical choice to consequences</h3></div>
+        <div class="direction-head"><span class="tile" aria-hidden="true"><svg class="icon"><use href="#i-sliders"/></svg></span><h3>From technical choice to consequences</h3></div>
         <div class="direction-body">
           <p>Technical research can establish what objectives, datasets, architectures, algorithms, and evaluations actually produce. HASS offers empirical and normative perspectives on what those effects mean socially, legally, and institutionally.</p>
           <p class="questions">How do objectives, datasets, or metrics shape what AI systems do? What assumptions do these choices encode? How can evidence of unintended consequences inform redesign?</p>
@@ -432,7 +511,7 @@ footer { padding: 3.5rem 0 4rem; }
       </article>
 
       <article class="direction" id="dir-tradeoffs">
-        <div class="direction-head"><h3>Trade-offs between desired outcomes</h3></div>
+        <div class="direction-head"><span class="tile" aria-hidden="true"><svg class="icon"><use href="#i-scale"/></svg></span><h3>Trade-offs between desired outcomes</h3></div>
         <div class="direction-body">
           <p>Observed consequences may show that several desirable outcomes can't all be realized at once. Technical researchers bring multi-objective optimization, Pareto frontiers, constrained optimization, preference learning, and social choice to characterize these trade-offs.</p>
           <p class="questions">Which outcomes should be traded off at all? Are they commensurable? Who bears the costs, and who should choose the operating point?</p>
@@ -457,27 +536,27 @@ footer { padding: 3.5rem 0 4rem; }
 
     <div class="submit-grid" id="submit">
       <div>
-        <h3>Format</h3>
+        <h3 class="with-icon"><svg class="icon" aria-hidden="true"><use href="#i-file"/></svg>Format</h3>
         <p>Tiny papers of 2 pages or short papers of 4 pages, excluding references and appendices.</p>
         <p>Technical tiny papers can report late-breaking experiments, self-contained theoretical results, re-analyses of published work, or fresh perspectives on existing papers. HASS tiny papers can present a single urgent finding, a direct reply to a recent technical paper, or a short communication on trends in AI venues.</p>
       </div>
       <div>
-        <h3>Category</h3>
+        <h3 class="with-icon"><svg class="icon" aria-hidden="true"><use href="#i-tag"/></svg>Category</h3>
         <p>Every submission declares a primary category, <span class="tag tag-tech">Technical</span> or <span class="tag tag-hass">HASS</span>, which sets the methodological standards used in review. Interdisciplinary work should pick the category that best reflects its main contribution.</p>
         <p>HASS submissions may follow their field's conventions (author–date citations, footnotes, essay form). Conceptual, qualitative, legal, historical, and critical work is welcome; new empirical results are not required.</p>
       </div>
       <div>
-        <h3>Archival status</h3>
+        <h3 class="with-icon"><svg class="icon" aria-hidden="true"><use href="#i-globe"/></svg>Archival status</h3>
         <p>The workshop is non-archival. Accepted papers remain publicly available on OpenReview and on this website, and you are free to publish them elsewhere.</p>
       </div>
       <div>
-        <h3>Use of LLMs</h3>
+        <h3 class="with-icon"><svg class="icon" aria-hidden="true"><use href="#i-pen"/></svg>Use of LLMs</h3>
         <p>Follow the ICLR 2027 LLM usage policy. AI-generated papers are not allowed in either format. AI assistance is permitted, but submissions must be primarily human-authored, reflecting the authors' original thought and analysis. Papers that study LLMs or use LLM outputs as research data are welcome: this policy is about authorship, not subject matter.</p>
       </div>
     </div>
 
     <div style="margin-top:3.5rem" id="positioning">
-      <h3>Positioning statement</h3>
+      <h3 class="with-icon"><svg class="icon" aria-hidden="true"><use href="#i-target"/></svg>Positioning statement</h3>
       <div class="prose">
         <p>Every submission opens with a positioning statement of at most 100 words, placed before the abstract. It should name (i) the value, motivation, or desired outcome at stake; (ii) how the paper examines the link between motivations, technical formulations, and observed consequences or trade-offs; and (iii) an unresolved societal question that would benefit from cross-disciplinary discussion. <strong>Submissions without one will be desk rejected.</strong></p>
       </div>
@@ -499,11 +578,11 @@ footer { padding: 3.5rem 0 4rem; }
           <blockquote>Value: equal access to AI assistance. We argue that the safety-helpfulness trade-off differs across languages and dialects because refusal rates and their costs are unevenly distributed. How should AI systems balance safety and accessibility when different user groups bear different costs?</blockquote>
         </figure>
       </div>
-      <p class="not-this">Not enough: "This paper is relevant because it studies the societal implications of LLMs." It names no value, no research choice, and nothing gained or lost.</p>
+      <p class="not-this"><svg class="icon" aria-hidden="true"><use href="#i-x-circle"/></svg><span>Not enough: "This paper is relevant because it studies the societal implications of LLMs." It names no value, no research choice, and nothing gained or lost.</span></p>
     </div>
 
     <div style="margin-top:3rem" id="review">
-      <h3>How papers are reviewed</h3>
+      <h3 class="with-icon"><svg class="icon" aria-hidden="true"><use href="#i-clipboard"/></svg>How papers are reviewed</h3>
       <div class="prose">
         <p>Technical and HASS papers share one rubric so they are valued equally, but each is judged by the conventions of its own tradition. Conceptual and position papers aren't expected to include new empirical results; they should make a clear, well-supported argument with concrete implications for AI research. Reviewers nominate papers for a Best Paper Award in each category.</p>
         <p>Conflicts of interest are managed through OpenReview. Organizers and reviewers do not assess submissions from their own institutions or where they have other professional or personal conflicts.</p>
@@ -539,14 +618,14 @@ footer { padding: 3.5rem 0 4rem; }
   <div class="wrap">
     <h2>Key dates</h2>
     <ol class="timeline" id="timeline">
-      <li data-date="2026-12-01"><time datetime="2026-12-01">1 Dec 2026</time><span class="what">Call for papers released, submissions open</span></li>
-      <li data-date="2027-02-01"><time datetime="2027-02-01">1 Feb 2027</time><span class="what">Submission deadline</span></li>
-      <li data-date="2027-02-23"><time datetime="2027-02-02">2–23 Feb 2027</time><span class="what">Reviewing period<small>Meta-reviews follow from 23 to 25 February</small></span></li>
-      <li data-date="2027-02-26"><time datetime="2027-02-26">26 Feb 2027</time><span class="what">Decisions, reviews, and meta-reviews released</span></li>
-      <li data-date="2027-04-15"><time datetime="2027-04-15">15 Apr 2027</time><span class="what">Camera-ready papers and posters due<small>Invited talk titles and the full programme posted on this site. Accepted papers, abstracts, and posters follow before the workshop.</small></span></li>
-      <li data-date="2027-04-30"><time datetime="2027-04-29">29 or 30 Apr 2027</time><span class="what">Workshop at ICLR 2027<small>The day is assigned by ICLR</small></span></li>
+      <li data-date="2026-12-01"><time datetime="2026-12-01">1 Dec 2026</time><span class="what"><svg class="icon" aria-hidden="true"><use href="#i-megaphone"/></svg><span>Call for papers released, submissions open</span></span></li>
+      <li data-date="2027-02-01"><time datetime="2027-02-01">1 Feb 2027</time><span class="what"><svg class="icon" aria-hidden="true"><use href="#i-upload"/></svg><span>Submission deadline</span></span></li>
+      <li data-date="2027-02-23"><time datetime="2027-02-02">2–23 Feb 2027</time><span class="what"><svg class="icon" aria-hidden="true"><use href="#i-eye"/></svg><span>Reviewing period<small>Meta-reviews follow from 23 to 25 February</small></span></span></li>
+      <li data-date="2027-02-26"><time datetime="2027-02-26">26 Feb 2027</time><span class="what"><svg class="icon" aria-hidden="true"><use href="#i-mail"/></svg><span>Decisions, reviews, and meta-reviews released</span></span></li>
+      <li data-date="2027-04-15"><time datetime="2027-04-15">15 Apr 2027</time><span class="what"><svg class="icon" aria-hidden="true"><use href="#i-file-check"/></svg><span>Camera-ready papers and posters due<small>Invited talk titles and the full programme posted on this site. Accepted papers, abstracts, and posters follow before the workshop.</small></span></span></li>
+      <li data-date="2027-04-30"><time datetime="2027-04-29">29 or 30 Apr 2027</time><span class="what"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg><span>Workshop at ICLR 2027<small>The day is assigned by ICLR</small></span></span></li>
     </ol>
-    <p class="note">All deadlines are 23:59 Anywhere on Earth (AoE).</p>
+    <p class="note"><svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg>All deadlines are 23:59 Anywhere on Earth (AoE).</p>
   </div>
 </section>
 
@@ -558,7 +637,7 @@ footer { padding: 3.5rem 0 4rem; }
 
     <div class="format-grid">
       <div>
-        <h3>Spotlight pairs</h3>
+        <h3 class="with-icon"><svg class="icon" aria-hidden="true"><use href="#i-exchange"/></svg>Spotlight pairs</h3>
         <p>Each pair joins one technical paper with one HASS paper across two consecutive 20-minute sessions. One author presents for 10 minutes, the paired researcher responds with how their field reads the work, and open discussion follows. Then the roles reverse. Pairs are told at acceptance so partners can read each other's papers in advance.</p>
         <table class="pair-table">
           <thead><tr><th scope="col">Session</th><th scope="col">Presents</th><th scope="col">Responds</th></tr></thead>
@@ -569,7 +648,7 @@ footer { padding: 3.5rem 0 4rem; }
         </table>
       </div>
       <div>
-        <h3>Find people from the other side</h3>
+        <h3 class="with-icon"><svg class="icon" aria-hidden="true"><use href="#i-lanyard"/></svg>Find people from the other side</h3>
         <p>Every participant gets a coloured lanyard showing their research perspective, and you can choose more than one. It's a simple way to spot a potential collaborator across the room during poster sessions and breaks. The same colours mark speakers and organizers on this page.</p>
         <div class="lanyards">
           <span class="lanyard" style="--c: var(--tech)">Technical AI</span>
@@ -586,21 +665,21 @@ footer { padding: 3.5rem 0 4rem; }
         <tbody>
           <tr class="half"><th colspan="3" scope="colgroup">Morning</th></tr>
           <tr><td>08:15</td><td>Opening remarks</td><td class="kind"></td></tr>
-          <tr><td>08:30</td><td>Invited talk 1</td><td class="kind">Talk</td></tr>
-          <tr><td>08:50</td><td>Invited talk 2</td><td class="kind">Talk</td></tr>
-          <tr class="social"><td>09:10</td><td>Poster session 1 and cross-disciplinary networking</td><td class="kind">Posters</td></tr>
-          <tr class="pair"><td>10:40</td><td>Spotlight pair 1a</td><td class="kind">Paired papers</td></tr>
-          <tr class="pair"><td>11:00</td><td>Spotlight pair 1b</td><td class="kind">Paired papers</td></tr>
-          <tr><td>11:20</td><td>Invited talk 3</td><td class="kind">Talk</td></tr>
-          <tr><td>11:40</td><td>Invited talk 4</td><td class="kind">Talk</td></tr>
+          <tr><td>08:30</td><td>Invited talk 1</td><td class="kind"><svg class="icon" aria-hidden="true"><use href="#i-mic"/></svg>Talk</td></tr>
+          <tr><td>08:50</td><td>Invited talk 2</td><td class="kind"><svg class="icon" aria-hidden="true"><use href="#i-mic"/></svg>Talk</td></tr>
+          <tr class="social"><td>09:10</td><td>Poster session 1 and cross-disciplinary networking</td><td class="kind"><svg class="icon" aria-hidden="true"><use href="#i-poster"/></svg>Posters</td></tr>
+          <tr class="pair"><td>10:40</td><td>Spotlight pair 1a</td><td class="kind"><svg class="icon" aria-hidden="true"><use href="#i-exchange"/></svg>Paired papers</td></tr>
+          <tr class="pair"><td>11:00</td><td>Spotlight pair 1b</td><td class="kind"><svg class="icon" aria-hidden="true"><use href="#i-exchange"/></svg>Paired papers</td></tr>
+          <tr><td>11:20</td><td>Invited talk 3</td><td class="kind"><svg class="icon" aria-hidden="true"><use href="#i-mic"/></svg>Talk</td></tr>
+          <tr><td>11:40</td><td>Invited talk 4</td><td class="kind"><svg class="icon" aria-hidden="true"><use href="#i-mic"/></svg>Talk</td></tr>
           <tr class="social"><td>12:00</td><td>Lunch</td><td class="kind"></td></tr>
           <tr class="half"><th colspan="3" scope="colgroup">Afternoon</th></tr>
-          <tr class="pair"><td>13:20</td><td>Spotlight pair 2a</td><td class="kind">Paired papers</td></tr>
-          <tr class="pair"><td>13:40</td><td>Spotlight pair 2b</td><td class="kind">Paired papers</td></tr>
-          <tr><td>14:00</td><td>Invited talk 5</td><td class="kind">Talk</td></tr>
-          <tr><td>14:20</td><td>Invited talk 6</td><td class="kind">Talk</td></tr>
-          <tr><td>14:40</td><td>Panel discussion, moderated by Simon Chesterman</td><td class="kind">Panel</td></tr>
-          <tr class="social"><td>15:40</td><td>Poster session 2 and cross-disciplinary networking</td><td class="kind">Posters</td></tr>
+          <tr class="pair"><td>13:20</td><td>Spotlight pair 2a</td><td class="kind"><svg class="icon" aria-hidden="true"><use href="#i-exchange"/></svg>Paired papers</td></tr>
+          <tr class="pair"><td>13:40</td><td>Spotlight pair 2b</td><td class="kind"><svg class="icon" aria-hidden="true"><use href="#i-exchange"/></svg>Paired papers</td></tr>
+          <tr><td>14:00</td><td>Invited talk 5</td><td class="kind"><svg class="icon" aria-hidden="true"><use href="#i-mic"/></svg>Talk</td></tr>
+          <tr><td>14:20</td><td>Invited talk 6</td><td class="kind"><svg class="icon" aria-hidden="true"><use href="#i-mic"/></svg>Talk</td></tr>
+          <tr><td>14:40</td><td>Panel discussion, moderated by Simon Chesterman</td><td class="kind"><svg class="icon" aria-hidden="true"><use href="#i-users"/></svg>Panel</td></tr>
+          <tr class="social"><td>15:40</td><td>Poster session 2 and cross-disciplinary networking</td><td class="kind"><svg class="icon" aria-hidden="true"><use href="#i-poster"/></svg>Posters</td></tr>
           <tr><td>17:10</td><td>Workshop synthesis</td><td class="kind"></td></tr>
           <tr><td>17:20</td><td>Best paper awards</td><td class="kind"></td></tr>
           <tr><td>17:30</td><td>Close</td><td class="kind"></td></tr>
@@ -674,6 +753,7 @@ footer { padding: 3.5rem 0 4rem; }
       </article>
     </div>
     <div class="panel-note">
+      <span class="tile" aria-hidden="true"><svg class="icon"><use href="#i-users"/></svg></span>
       <p><strong>Panel discussion.</strong> Moderated by Simon Chesterman, the panel brings together speakers with contrasting training and methods to ask how their backgrounds shape what they see as the relevant motivations, technical choices, and desirable outcomes. Its open questions feed directly into the AI4Y? Research Agenda.</p>
     </div>
   </div>
@@ -798,14 +878,17 @@ footer { padding: 3.5rem 0 4rem; }
     <h2>Taking part</h2>
     <div class="participate">
       <div>
+        <span class="tile" aria-hidden="true"><svg class="icon"><use href="#i-suitcase"/></svg></span>
         <h3>Travel support</h3>
         <p>We are pursuing sponsors across academia and industry to fund student travel grants and registration waivers.</p>
       </div>
       <div>
+        <span class="tile" aria-hidden="true"><svg class="icon"><use href="#i-screen"/></svg></span>
         <h3>Remote access</h3>
         <p>All programming is designed for in-person participation, and remote presentations are possible only in exceptional circumstances. Accepted papers, posters, slides, and short recorded summaries will be on OpenReview and this site, and talks and the panel will be recorded and shared afterwards with speakers' and authors' consent.</p>
       </div>
       <div>
+        <span class="tile" aria-hidden="true"><svg class="icon"><use href="#i-map"/></svg></span>
         <h3>The AI4Y? Research Agenda</h3>
         <p>After the workshop we will publish a public research agenda drawing on accepted papers, the panel, and the spotlight pairs. It will trace motivations to formulations, implicit priorities, observed consequences, and open questions, and live on this site as a resource the community can return to.</p>
       </div>
